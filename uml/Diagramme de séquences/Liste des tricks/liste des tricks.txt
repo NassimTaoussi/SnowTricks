@@ -1,0 +1,13 @@
+@startuml
+
+actor User #salmon
+control Systeme #dodgerblue
+database Database #olive
+
+
+User -> Systeme :  Demande la liste des tricks
+Systeme -> Database : Récupération de la liste des tricks
+Database -> Systeme : Renvoie la liste des tricks
+Systeme -> User :  Renvoie la liste des tricks
+
+@enduml

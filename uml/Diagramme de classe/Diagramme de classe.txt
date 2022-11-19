@@ -1,0 +1,61 @@
+@startuml
+
+User "1 " *--* "0..*" Comment
+
+Photo "1..* " *--* "  1  " Trick
+
+Video "1..* " *--* "  1  " Trick
+
+User "1" *--* "0..*" Trick
+
+Trick "0..*" *--* "  1  " Category
+
+Trick "  1  " *--* "0..*" Comment
+
+Class User {
+  int : id
+  String : username
+  String : email
+  String : password
+  String : avatar
+  String : resetPasswordToken
+}
+
+Class Trick {
+  int : id
+  User : author
+  String : name
+  String : description
+  Category : category
+  Photo : photos
+  Video : videos
+  DateTime : createdAt
+  DateTime : updatedAt
+  Comment : comments
+}
+
+Class Photo {
+  int : id
+  String : link
+  Trick : trick
+}
+
+Class Video {
+  int : id
+  String : link
+  Trick : trick
+}
+
+Class Category {
+  int : id
+  String : name
+}
+
+Class Comment {
+  int : id
+  User : author
+  DateTime : createdAt
+  String : message
+  Trick : trick
+}
+@enduml

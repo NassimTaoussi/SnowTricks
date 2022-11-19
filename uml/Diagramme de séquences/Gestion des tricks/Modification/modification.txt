@@ -1,0 +1,22 @@
+@startuml
+
+actor User #salmon
+control Systeme #dodgerblue
+database Database #olive
+note over User: Status connecter
+ref over User: Diagramme de séquence "Liste des tricks"
+
+User-> Systeme : Demande d'affichage de la page de modification d'un trick
+Systeme -> Database : Récupère les infos du trick
+Database -> Systeme : Renvoie les informations du trick
+Systeme -> User: Affiche la page de modification
+User-> Systeme : Soumet les modification du trick
+
+  alt Si formulaire valide
+    Systeme -> Database : Mise a jour en base de données
+    Systeme -> User: Message de confirmation
+  else
+    Systeme -> User: Message d'erreur
+  end
+
+@enduml

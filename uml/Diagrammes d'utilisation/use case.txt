@@ -1,0 +1,26 @@
+@startuml
+
+left to right direction
+:Utilisateur: #lightseagreen;line:lightseagreen;line.bold;text:lightseagreen
+
+rectangle "Page d'accueil" {
+
+Utilisateur--> (Crée un trick) #lightseagreen;line:lightseagreen;line.bold;text:lightseagreen
+Utilisateur--> (Liste des tricks) #lightseagreen;line:lightseagreen;line.bold;text:lightseagreen
+
+(Liste des tricks) <.. (Lire un trick) #dodgerblue;line.dashed;text:dodgerblue : extends
+(Liste des tricks) <.. (Modifier un trick) #dodgerblue;line.dashed;text:dodgerblue : extends
+(Liste des tricks) <.. (Supprimer un trick) #dodgerblue;line.dashed;text:dodgerblue : extends
+
+(Lire un trick) <.. (Lire la discussion) #dodgerblue;line.dashed;text:dodgerblue : extends
+(Lire un trick) <.. (Poster un message) #dodgerblue;line.dashed;text:dodgerblue : extends
+
+(Se connecter) ..> (S'inscrire) #dodgerblue;line.dashed;text:dodgerblue : include
+(Crée un trick) ..> (Se connecter) #dodgerblue;line.dashed;text:dodgerblue : include
+(Supprimer un trick) ..> (Se connecter) #dodgerblue;line.dashed;text:dodgerblue : include
+(Modifier un trick) ..> (Se connecter) #dodgerblue;line.dashed;text:dodgerblue : include
+(Poster un message) ..> (Se connecter) #dodgerblue;line.dashed;text:dodgerblue : include
+
+}
+
+@enduml

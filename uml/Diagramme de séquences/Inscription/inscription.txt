@@ -1,0 +1,21 @@
+@startuml
+
+actor User #salmon
+control Systeme #dodgerblue
+database Database #olive
+
+User -> Systeme: Demande la page d'inscription
+Systeme -> User: Renvoie la page d'inscription
+User -> Systeme: Rempli les champs et envoie le formulaire
+Systeme -> Systeme: Vérifie la validité du formulaire
+
+   alt Si formulaire valide
+      Systeme -> Database : Stock les données du nouvelle utilisateur
+      Systeme -> User : Message de validation
+   else
+      Systeme -> User : Message d'erreur
+   end
+
+  
+
+@enduml

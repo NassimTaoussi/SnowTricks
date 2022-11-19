@@ -1,0 +1,14 @@
+@startuml
+
+actor User#salmon
+control Systeme #dodgerblue
+database Database #olive
+note over User: Status connecter
+ref over User: Diagramme de séquence "Liste des tricks"
+
+User-> Systeme : Demande de suppression du trick
+Systeme -> Database : Suppression en base de données
+Systeme -> User: Message de confirmation
+
+
+@enduml

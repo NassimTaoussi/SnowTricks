@@ -1,0 +1,12 @@
+@startuml
+
+actor User #salmon
+control Systeme #dodgerblue
+
+ref over User : Diagramme de séquence "Liste des tricks"
+
+User -> Systeme :  Demande la page du trick n°x
+Systeme -> User :  Renvoie la page du trick n°x
+
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+
+actor User #salmon
+control Systeme #dodgerblue
+database Database #olive
+
+User -> Systeme: Demande la page d'authentification
+Systeme -> User: Renvoie la page d'authentification
+User -> Systeme : Soumet l'identifiant et le mot de passe
+Systeme -> Database : Requête de récupération de l'utilisateur
+Database -> Systeme : Récupération de l'utilisateur
+Systeme -> Systeme :Verifie le mot de passe utilisateur
+
+   alt Si mot de passe incorrect
+      Systeme -> User : Message d'erreur et renvoie vers la page d'authentification
+      
+   else Si mot de passe valide
+      Systeme -> Systeme : Création d'une session
+      Systeme -> User : Message de confirmation
+      activate User
+      deactivate User
+
+   end 
+
+
+@enduml

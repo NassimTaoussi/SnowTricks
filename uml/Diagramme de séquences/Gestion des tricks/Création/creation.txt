@@ -1,0 +1,19 @@
+@startuml
+
+actor User #salmon
+control Systeme #dodgerblue
+database Database #olive
+
+note over User: Status connecter
+User -> Systeme : Demande la page de création d'un trick
+    Systeme -> User : Renvoie la page de création d'un trick
+    User -> Systeme : Rempli le formulaire de création et le soumet
+    
+    alt Si formulaire valide
+      Systeme -> Database : Insertion en base de données
+      Systeme -> User : Message de validation
+    else  
+      Systeme -> User : Message d'erreur
+    end
+
+@enduml
