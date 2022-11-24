@@ -8,6 +8,7 @@ ref over User : Diagramme de séquence "Lecture d'un trick"
 
 
 User -> Systeme :  Soumet un message
+Systeme -> Systeme : Vérifie la validité du formulaire
   alt Si formulaire valide
     Systeme -> Database : Insertion en base de données
     Systeme -> User : Message de validation

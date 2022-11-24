@@ -5,6 +5,7 @@ left to right direction
 
 rectangle "Page d'accueil" {
 
+Utilisateur--> (Oublie de mot de passe) #lightseagreen;line:lightseagreen;line.bold;text:lightseagreen
 Utilisateur--> (Crée un trick) #lightseagreen;line:lightseagreen;line.bold;text:lightseagreen
 Utilisateur--> (Liste des tricks) #lightseagreen;line:lightseagreen;line.bold;text:lightseagreen
 
@@ -17,10 +18,9 @@ Utilisateur--> (Liste des tricks) #lightseagreen;line:lightseagreen;line.bold;te
 
 (Se connecter) ..> (S'inscrire) #dodgerblue;line.dashed;text:dodgerblue : include
 (Crée un trick) ..> (Se connecter) #dodgerblue;line.dashed;text:dodgerblue : include
+(Oublie de mot de passe) ..> (Se connecter) #dodgerblue;line.dashed;text:dodgerblue : include
 (Supprimer un trick) ..> (Se connecter) #dodgerblue;line.dashed;text:dodgerblue : include
 (Modifier un trick) ..> (Se connecter) #dodgerblue;line.dashed;text:dodgerblue : include
 (Poster un message) ..> (Se connecter) #dodgerblue;line.dashed;text:dodgerblue : include
 
 }
-
-@enduml

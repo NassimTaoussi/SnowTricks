@@ -11,7 +11,7 @@ Systeme -> Database : Récupère les infos du trick
 Database -> Systeme : Renvoie les informations du trick
 Systeme -> User: Affiche la page de modification
 User-> Systeme : Soumet les modification du trick
-
+Systeme -> Systeme : Vérifie la validité du formulaire
   alt Si formulaire valide
     Systeme -> Database : Mise a jour en base de données
     Systeme -> User: Message de confirmation
