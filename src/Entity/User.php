@@ -20,25 +20,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $username = null;
+    private string $username;
 
     #[ORM\Column(length: 255)]
-    private ?string $email = null;
+    private string $email;
 
     #[ORM\Column(length: 255)]
-    private ?string $password = null;
+    private string $password;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $avatar = null;
-
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comment::class, orphanRemoval: true)]
-    private Collection $comments;
-
-    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Trick::class, orphanRemoval: true)]
-    private Collection $tricks;
-
-    #[ORM\Column(type: 'json')]
-    private $roles = [];
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
@@ -172,18 +163,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function getRoles(): array {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
+        return ["ROLE_USER"];
     }
 
     public function eraseCredentials() {
