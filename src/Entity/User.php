@@ -32,7 +32,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $avatar = null;
 
     #[ORM\Column(type: 'boolean')]
-    private $isVerified = false;
+    private $verified = false;
 
     public function __construct()
     {
@@ -172,12 +172,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function isVerified(): bool
     {
-        return $this->isVerified;
+        return $this->verified;
     }
 
-    public function setIsVerified(bool $isVerified): self
+    public function setIsVerified(bool $verified): self
     {
-        $this->isVerified = $isVerified;
+        $this->verified = $verified;
 
         return $this;
     }
