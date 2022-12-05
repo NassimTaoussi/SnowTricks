@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Uid\Uuid;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -34,8 +35,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $verified = false;
 
+    #[ORM\Column(type: 'uuid', nullable: true)]
+    private ?Uuid $validationToken = null;
+
     public function __construct()
     {
+        $this->validationToken = Uuid::v4();
         $this->comments = new ArrayCollection();
         $this->tricks = new ArrayCollection();
     }
@@ -178,6 +183,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $verified): self
     {
         $this->verified = $verified;
+
+        return $this;
+    }
+
+    public function getValidationToken(): ?Uuid
+    {
+        return $this->validationToken;
+    }
+
+    public function setValidationToken(?Uuid $validationToken): self
+    {
+        $this->validationToken = $validationToken;
 
         return $this;
     }
