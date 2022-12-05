@@ -49,7 +49,8 @@ class RegistrationController extends AbstractController
                     ->subject('Veuillez confirmer votre email')
                     ->htmlTemplate('registration/confirmation_email.html.twig')
                     ->context([
-                        'validationToken' => $user->getValidationToken(),
+                        'user' => $user,
+                        'token' => $user->getValidationToken(),
                     ])
             );
             // do anything else you need here, like send an email
@@ -69,7 +70,7 @@ class RegistrationController extends AbstractController
 
         // validate email confirmation link, sets User::isVerified=true and persists
         try {
-            $emailVerifier->handleEmailConfirmation($request, $this->getUser());
+            $emailVerifier->verifyEmailConfirmation($request, $this->getUser());
         } catch (Exception $exception) {
             $this->addFlash('verify_email_error', $exception->getMessage());
 
