@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -67,10 +68,11 @@ class RegistrationController extends AbstractController
     public function verifyUserEmail(Request $request, EmailVerifier $emailVerifier): Response
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $token = $request->query->get('token');
 
         // validate email confirmation link, sets User::isVerified=true and persists
         try {
-            $emailVerifier->verifyEmailConfirmation($request, $this->getUser());
+            $emailVerifier->verifyEmailConfirmation($token);
         } catch (Exception $exception) {
             $this->addFlash('verify_email_error', $exception->getMessage());
 
