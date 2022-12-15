@@ -2,6 +2,6 @@
 
 <p>
     Veuillez confirmer votre adresse email en cliquant sur le lien suivant: <br><br>
-    <a href="{{ absolute_url(path('app_verify_email', {token: token})) }}">Confirmer mon adresse email</a>
+    <a href="{{ absolute_url(path('app_verify_email', {validationToken: user.validationToken})) }}">Confirmer mon adresse email</a>
 </p>
 

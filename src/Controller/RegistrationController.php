@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mime\Address;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
@@ -41,7 +40,6 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
 
-
             // generate a signed url and email it to the user
             $emailVerifier->sendEmailConfirmation('app_verify_email', $user,
                 (new TemplatedEmail())
@@ -51,7 +49,6 @@ class RegistrationController extends AbstractController
                     ->htmlTemplate('registration/confirmation_email.html.twig')
                     ->context([
                         'user' => $user,
-                        'token' => $user->getValidationToken(),
                     ])
             );
             // do anything else you need here, like send an email
@@ -64,20 +61,10 @@ class RegistrationController extends AbstractController
         ]);
     }
 
-    #[Route('/verify/email', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, EmailVerifier $emailVerifier): Response
+    #[Route('/verify/email/{validationToken}', name: 'app_verify_email')]
+    public function verifyUserEmail(Request $request, EmailVerifier $emailVerifier, User $user): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $token = $request->query->get('token');
-
-        // validate email confirmation link, sets User::isVerified=true and persists
-        try {
-            $emailVerifier->verifyEmailConfirmation($token);
-        } catch (Exception $exception) {
-            $this->addFlash('verify_email_error', $exception->getMessage());
-
-            return $this->redirectToRoute('home');
-        }
+        $emailVerifier->verifyEmailConfirmation($user);
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Votre adresse email est bien verifier.');

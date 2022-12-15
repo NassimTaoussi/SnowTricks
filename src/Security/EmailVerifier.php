@@ -16,11 +16,13 @@ class EmailVerifier
 {
 
     private $mailer;
+    private $manager;
 
-    public function __construct(MailerInterface $mailer, UserRepository $userRepository) 
+    public function __construct(MailerInterface $mailer, UserRepository $userRepository, EntityManagerInterface $manager) 
     {
         $this->mailer = $mailer;
         $this->userRepository = $userRepository;
+        $this->manager = $manager;
     }
 
     public function sendEmailConfirmation(string $verifyEmailRouteName, User $user, TemplatedEmail $email): void
@@ -34,18 +36,11 @@ class EmailVerifier
     }
 
   
-    /*public function verifyEmailConfirmation($token): void
+    public function verifyEmailConfirmation(User $user): void
     {
-        $user = $this->userRepository->findOneBy(['validationToken' => $token]);
-
-        if(empty($user) || $user == null) {
-            throw new Exception('Erreur');
-        }
-        else {
             $user->setIsVerified(true);
             $user->setValidationToken(null);
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
-        }
-    }*/
+            $this->manager->persist($user);
+            $this->manager->flush();
+    }
 }
