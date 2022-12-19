@@ -62,7 +62,7 @@ class RegistrationController extends AbstractController
     }
 
     #[Route('/verify/email/{validationToken}', name: 'app_verify_email')]
-    public function verifyUserEmail(Request $request, EmailVerifier $emailVerifier, User $user): Response
+    public function verifyUserEmail(EmailVerifier $emailVerifier, User $user): Response
     {
         $emailVerifier->verifyEmailConfirmation($user);
 
