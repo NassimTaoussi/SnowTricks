@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\ResetPasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
 use App\Repository\UserRepository;
@@ -68,13 +69,10 @@ class SecurityController extends AbstractController
                             ])
                     );
 
-                    $this->addFlash('success', 'Email envoyé avec succès');
-                    return $this->redirectToRoute('app_login');
                 }
                 
             }
-
-            $this->addFlash('danger', 'Un problème est survenu');
+            $this->addFlash('success', 'Email envoyé avec succès');
             return $this->redirectToRoute('app_login');
         }
 
@@ -83,46 +81,34 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    #[Route('/reset-password/{token}', name:'reset_password')]
+    #[Route('/reset-password/{validationToken}', name:'reset_password')]
     public function resetPassword(
-        string $token,
         Request $request,
-        UserRepository $usersRepository,
+        User $user,
         EntityManagerInterface $entityManager,
         UserPasswordHasherInterface $passwordHasher
     ): Response
     {
-        // On vérifie si on a ce token dans la base
-        $user = $usersRepository->findOneByValidationToken($token);
+        $form = $this->createForm(ResetPasswordFormType::class)->handleRequest($request);
 
-        if($user){
-            $form = $this->createForm(ResetPasswordFormType::class);
-
-            $form->handleRequest($request);
-
-            if($form->isSubmitted() && $form->isValid())
-            {
-                $user->setValidationToken(null);
-                $user->setPassword(
-                    $passwordHasher->hashPassword(
-                        $user,
-                        $form->get('password')->getData()
-                    )
-                );
-                $entityManager->persist($user);
-                $entityManager->flush();
-                $this->addFlash('success', 'Mot de passe changé avec succès');
-                return $this->redirectToRoute('app_login');
-            }
-
-            return $this->render('security/reset_password.html.twig', [
-                'passForm' => $form->createView()
-            ]);
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $user->setValidationToken(null);
+            $user->setPassword(
+                $passwordHasher->hashPassword(
+                    $user,
+                    $form->get('password')->getData()
+                )
+            );
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $this->addFlash('success', 'Mot de passe changé avec succès');
+            return $this->redirectToRoute('app_login');
         }
 
-         // Si le token est invalide on redirige vers le login
-         $this->addFlash('danger', 'Jeton invalide');
-         return $this->redirectToRoute('app_login');
+        return $this->render('security/reset_password.html.twig', [
+            'passForm' => $form->createView()
+        ]);
     }
 
     #[Route(path: '/logout', name: 'app_logout')]
