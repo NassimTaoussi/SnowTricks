@@ -11,4 +11,16 @@
         </div>
     </div>
 
+    <section id="allTricks" class="d-flex justify-content-center mt-5 flex-wrap">
+        {% for trick in tricks %}
+            <div class="card mb-4 ms-2 me-2" style="width: 18rem;">
+                <img class="card-img-top" src="..." alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">{{trick.name}}</h5>
+                    <span><img src="{{ asset('build/icones/edit.svg') }}"></span>
+                    <span><img src="{{ asset('build/icones/delete.svg') }}"></span>
+                </div>
+            </div>
+        {% endfor %}
+    </section>
 {% endblock %}

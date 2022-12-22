@@ -15,7 +15,7 @@ class TricksFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager) :void
     {
-        for ($count = 0; $count < 20; $count++) {
+        for ($count = 0; $count < 15; $count++) {
             $trick = new Trick();
             $trick->setAuthor($this->getReference(UsersFixtures::USER_REFERENCE));
             $trick->setName('Trick ' . $count);
