@@ -21,6 +21,25 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
+    public function updateTrick(Trick $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function deleteTrick($id) 
+    {
+        $this->createQueryBuilder('t')
+        ->delete()
+        ->where('t.id = :id')
+        ->setParameter('id', $id)
+        ->getQuery()
+        ->getResult();
+    }
+
     public function save(Trick $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
