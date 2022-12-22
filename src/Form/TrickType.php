@@ -24,9 +24,11 @@ class TrickType extends AbstractType
                 'label' => 'Description :',
             ])
             ->add('category', EntityType::class, [
+                'choice_label' => "name",
                 'label' => 'Categorie :',
                 'class' => Category::class,
             ])
+
             ->add('photos', CollectionType::class , [
                 'mapped' => false,
                 'entry_type' => UrlType::class,
