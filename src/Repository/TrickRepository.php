@@ -21,6 +21,13 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
+    public function countAllTricks() {
+        return $this->createQueryBuilder('t')
+        ->select("COUNT(t.id)")
+        ->getQuery()
+        ->getSingleScalarResult();
+    }
+
     public function updateTrick(Trick $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

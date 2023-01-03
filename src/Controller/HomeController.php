@@ -12,8 +12,10 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'home')]
-    public function index(TrickRepository $trickRepository): Response
+    public function index(Request $request, TrickRepository $trickRepository): Response
     {
+        $ajax = $request->isXmlHttpRequest();
+        $allCountTricks = $trickRepository->countAllTricks();
         $tricks = $trickRepository->findAll();
 
         return $this->render('home/index.html.twig', [

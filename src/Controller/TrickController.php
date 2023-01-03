@@ -46,4 +46,13 @@ class TrickController extends AbstractController
         return $this->redirectToRoute('home');
         $this->addFlash('success', 'Le trick a bien été supprimer.');
     }
+
+    #[Route('trick/{id}', name:'show_trick')]
+    public function showTrick(Trick $trick): Response
+    {
+
+        return $this->render('trick/showTrick.html.twig', [
+            'trick' => $trick,
+        ]);
+    }
 }
