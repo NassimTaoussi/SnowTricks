@@ -1,7 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Trick n°{% endblock %}
+{% block title %}Trick n°{{ trick.id }}{% endblock %}
 
 {% block body %}
-    
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-3">
+                <img src="" class="card-img-top" alt="">
+                <div class="card-body">
+                    <h5 class="card-title">{{trick.name}}</h5>
+                 
+                    <p class="card-text">{{trick.description}}</p>
+                    <p class="card-text"><small class="text-muted">{{trick.author}}</small></p>
+                    <p class="card-text"><small class="text-muted">{{trick.updatedAt|date('d/m/Y')}}</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
