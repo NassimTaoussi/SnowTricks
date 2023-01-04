@@ -11,17 +11,34 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
+
+    const TRICKS_DISPLAY_STARTING = 15;
+    const TRICKS_PER_LOADING = 5;
+
     #[Route('/', name: 'home')]
-    public function index(Request $request, TrickRepository $trickRepository): Response
+    public function index(TrickRepository $trickRepository): Response
     {
-        $ajax = $request->isXmlHttpRequest();
-        $allCountTricks = $trickRepository->countAllTricks();
-        $tricks = $trickRepository->findAll();
+        $totalAllTricks = $trickRepository->countAllTricks();
+        $tricksToDisplay = $trickRepository->getFirstTricks(self::TRICKS_DISPLAY_STARTING);
 
         return $this->render('home/index.html.twig', [
-            'tricks' => $tricks,
+            'totalAllTricks' => $totalAllTricks,
+            'tricksToDisplay' => $tricksToDisplay,
+            'totalDisplayTricks' => self::TRICKS_DISPLAY_STARTING,
+            'tricksPerLoading' => self::TRICKS_PER_LOADING,
         ]);
     }
 
-    
+    #[Route('/getData', name:'get_data', methods: ['POST'])]
+    public function loadMoreTricks(Request $request, TrickRepository $trickRepository): Response
+    {
+        // configuration
+        $tricksAlreadyLoaded = $request->get('totalDisplayTricks');
+        // selecting posts
+        $tricksToDisplay = $trickRepository->getMoreTricks($tricksAlreadyLoaded, self::TRICKS_PER_LOADING);
+
+        return $this->render('trick/elements.html.twig', [
+            'tricksToDisplay' => $tricksToDisplay,
+        ]);
+    }
 }

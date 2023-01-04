@@ -28,6 +28,26 @@ class TrickRepository extends ServiceEntityRepository
         ->getSingleScalarResult();
     }
 
+    public function getFirstTricks($tricksForStarting)
+    {
+        $query = $this->createQueryBuilder('t')
+            ->orderBy('t.createdAt')
+            ->setFirstResult(0)
+            ->setMaxResults($tricksForStarting)
+            ;
+        return $query->getQuery()->getResult();
+    }
+
+    public function getMoreTricks($tricksAlreadyLoaded, $tricksPerLoading)
+    {
+        $query = $this->createQueryBuilder('t')
+            ->orderBy('t.createdAt')
+            ->setFirstResult($tricksAlreadyLoaded)
+            ->setMaxResults($tricksPerLoading)
+            ;
+        return $query->getQuery()->getResult();
+    }
+
     public function updateTrick(Trick $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);

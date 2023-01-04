@@ -1,0 +1,14 @@
+{% for trick in tricksToDisplay %}
+    <div class="card mb-4 ms-3 me-3 cardTrick">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body d-flex justify-content-between">
+            <div class="titleTrick w-75">
+                <h5 class="card-title"><a href="{{ path('show_trick', {id: trick.id}) }}">{{trick.name}}</a></h5>
+            </div>
+            <div class="optionTrick w-25">
+                <span><a href="{{ path('edit_trick', {id: trick.id}) }}"><img class="editIcon" src="{{ asset('build/images/icones/edit.svg') }}"></a></span>
+                <span><a href="{{ path('delete_trick', {id: trick.id}) }}"><img class="deleteIcon" src="{{ asset('build/images/icones/delete.svg') }}"></a></span>
+            </div>
+        </div>
+    </div>
+{% endfor %}

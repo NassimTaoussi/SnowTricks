@@ -18,23 +18,16 @@
     </div>
 
     <section id="allTricks" class="d-flex justify-content-center mt-5 flex-wrap">
-        {% for trick in tricks %}
-            <div class="card mb-4 ms-3 me-3 cardTrick">
-                <img class="card-img-top" src="..." alt="Card image cap">
-                <div class="card-body d-flex justify-content-between">
-                    <div class="titleTrick w-75">
-                        <h5 class="card-title"><a href="{{ path('show_trick', {id: trick.id}) }}">{{trick.name}}</a></h5>
-                    </div>
-                    <div class="optionTrick w-25">
-                        <span><a href="{{ path('edit_trick', {id: trick.id}) }}"><img class="editIcon" src="{{ asset('build/images/icones/edit.svg') }}"></a></span>
-                        <span><a href="{{ path('delete_trick', {id: trick.id}) }}"><img class="deleteIcon" src="{{ asset('build/images/icones/delete.svg') }}"></a></span>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
-        
+        {{ include ('trick/elements.html.twig') }}
     </section>
-    <section id="moreTricks">
-        <button type="button" class="btn btn-primary" id="loadMoreTricks">Load More</button>
-    </section>
+
+    {% if totalAllTricks > totalDisplayTricks %}
+        <section id="moreTricks">
+            <button tclass="btn btn-primary" id="loadMoreTricks">Plus de tricks</button>
+            <input type="hidden" id="totalDisplayTricks" value="{{ totalDisplayTricks }}">
+            <input type="hidden" id="totalAllTricks" value="{{ totalAllTricks }}">
+            <input type="hidden" id="tricksPerLoading" value="{{ tricksPerLoading }}">
+        </section>
+    {% endif %}
 {% endblock %}
+
