@@ -31,7 +31,7 @@ class TrickRepository extends ServiceEntityRepository
     public function getFirstTricks($tricksForStarting)
     {
         $query = $this->createQueryBuilder('t')
-            ->orderBy('t.createdAt')
+            ->orderBy('t.id')
             ->setFirstResult(0)
             ->setMaxResults($tricksForStarting)
             ;
@@ -41,7 +41,7 @@ class TrickRepository extends ServiceEntityRepository
     public function getMoreTricks($tricksAlreadyLoaded, $tricksPerLoading)
     {
         $query = $this->createQueryBuilder('t')
-            ->orderBy('t.createdAt')
+            ->orderBy('t.id')
             ->setFirstResult($tricksAlreadyLoaded)
             ->setMaxResults($tricksPerLoading)
             ;

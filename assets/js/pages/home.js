@@ -32,9 +32,9 @@ $(document).ready(function() {
                         $('#loadMoreTricks').addClass('d-none');
                     }else{
                         $("#loadMoreTricks").text("Afficher plus de figures");
-                        if(totalDisplayTricks > 60) {
+                        /*if(totalDisplayTricks > 60) {
                             $("#arrow-top").show();
-                        }
+                        }*/
                     }
                 }, 400);
             },
