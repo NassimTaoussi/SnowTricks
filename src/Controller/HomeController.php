@@ -13,7 +13,7 @@ class HomeController extends AbstractController
 {
 
     const TRICKS_DISPLAY_STARTING = 15;
-    const TRICKS_PER_LOADING = 5;
+    const TRICKS_PER_LOADING = 10;
 
     #[Route('/', name: 'home')]
     public function index(TrickRepository $trickRepository): Response

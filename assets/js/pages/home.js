@@ -30,6 +30,7 @@ $(document).ready(function() {
                     if(totalDisplayTricks >= totalAllTricks){
                         // Change the text and background
                         $('#loadMoreTricks').addClass('d-none');
+                        $('#moreTricks').innerHTML('Plus aucune figure de disponible')
                     }else{
                         $("#loadMoreTricks").text("Afficher plus de figures");
                         /*if(totalDisplayTricks > 60) {
