@@ -12,7 +12,10 @@
     <div class="container-fluid ps-0 pe-0">
         <div class="backgroundMain">
             <div class="titleMain d-flex justify-content-center align-items-center">
-                <h1 class="display-3">Venez apprendre de nouvelles figures !</h1>
+                <h1 class="display-3">Viens apprendre de nouvelles figures !</h1>
+            </div>
+            <div class="d-flex justify-content-end">
+                <a href="#allTricks"><img id="arrowDownImg" src="build/images/icones/arrow-down.svg" ></a>
             </div>
         </div>
     </div>
@@ -22,12 +25,20 @@
     </section>
 
     {% if totalAllTricks > totalDisplayTricks %}
-        <section id="moreTricks">
+        <section class="d-flex justify-content-center" id="moreTricks">
             <button class="btn btn-primary" id="loadMoreTricks">Plus de tricks</button>
             <input type="hidden" id="totalDisplayTricks" value="{{ totalDisplayTricks }}">
             <input type="hidden" id="totalAllTricks" value="{{ totalAllTricks }}">
             <input type="hidden" id="tricksPerLoading" value="{{ tricksPerLoading }}">
         </section>
     {% endif %}
+
+    <div class="container-fluid ps-0 pe-0">
+        <div id="arrowUpContainer" class="row d-flex justify-content-end">
+            <div class="col-1" id="arrowUp">
+                <a href="#allTricks"><img id="arrowUpImg" src="build/images/icones/arrow-up.svg" ></a>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 

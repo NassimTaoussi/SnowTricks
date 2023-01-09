@@ -33,9 +33,9 @@ $(document).ready(function() {
                         $('#moreTricks').innerHTML('Plus aucune figure de disponible')
                     }else{
                         $("#loadMoreTricks").text("Afficher plus de figures");
-                        /*if(totalDisplayTricks > 60) {
-                            $("#arrow-top").show();
-                        }*/
+                        if(totalDisplayTricks > 15) {
+                            $("#arrowUp").show();
+                        }
                     }
                 }, 400);
             },

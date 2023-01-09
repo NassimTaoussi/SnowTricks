@@ -14,6 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class TrickController extends AbstractController
 {
 
+    const COMMENTS_DISPLAY_STARTING = 10;
+
     #[Route('/addTrick', name: 'add_trick')]
     #[Route('editTrick/{id}', name: 'edit_trick')]
     public function addTrick(?Trick $trick, Request $request, EntityManagerInterface $entityManager): Response
