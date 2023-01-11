@@ -28,20 +28,24 @@ class CommentRepository extends ServiceEntityRepository
         ->getSingleScalarResult();
     }
 
-    public function getFirstComments($commentsForStarting)
+    public function getFirstComments($commentsForStarting, $trick)
     {
         $query = $this->createQueryBuilder('c')
             ->orderBy('c.id')
+            ->where('c.trick = :trickId ')
+            ->setParameter('trickId', $trick->getId())
             ->setFirstResult(0)
             ->setMaxResults($commentsForStarting)
             ;
         return $query->getQuery()->getResult();
     }
 
-    public function getMoreComments($commentsAlreadyLoaded, $commentsPerLoading)
+    public function getMoreComments($commentsAlreadyLoaded, $commentsPerLoading, $trick)
     {
         $query = $this->createQueryBuilder('c')
             ->orderBy('c.id')
+            ->where('c.trick = :trickId ')
+            ->setParameter('trickId', $trick->getId())
             ->setFirstResult($commentsAlreadyLoaded)
             ->setMaxResults($commentsPerLoading)
             ;

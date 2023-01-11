@@ -17,4 +17,19 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <section id="allTricks" class="d-flex justify-content-center mt-5 flex-wrap">
+            {{ include ('comment/elements.html.twig') }}
+        </section>
+    </div>
+    <div class="row">
+        {% if totalAllComments > totalDisplayComments %}
+        <section class="d-flex justify-content-center" id="moreTricks">
+            <button class="btn btn-primary" id="loadMoreComments">Plus de commentaires</button>
+            <input type="hidden" id="totalDisplayComments" value="{{ totalDisplayComments }}">
+            <input type="hidden" id="totalAllComments" value="{{ totalAllComments }}">
+            <input type="hidden" id="commentsPerLoading" value="{{ commentsPerLoading }}">
+        </section>
+    {% endif %}
+    </div>
 {% endblock %}
