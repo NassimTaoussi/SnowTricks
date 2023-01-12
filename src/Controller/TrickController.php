@@ -52,8 +52,10 @@ class TrickController extends AbstractController
     }
 
     #[Route('trick/{id}', name:'show_trick')]
-    public function showTrick(Trick $trick, CommentRepository $commentRepository): Response
+    public function showTrick(Trick $trick, CommentRepository $commentRepository, Request $request): Response
     {
+        $id = $request->attributes->get('id');
+
         $totalAllComments = $commentRepository->countAllComments();
         $commentsToDisplay = $commentRepository->getFirstComments(self::COMMENTS_DISPLAY_STARTING, $trick);
         return $this->render('trick/showTrick.html.twig', [
@@ -61,13 +63,15 @@ class TrickController extends AbstractController
             'totalAllComments' => $totalAllComments,
             'commentsToDisplay' => $commentsToDisplay,
             'totalDisplayComments' => self::COMMENTS_DISPLAY_STARTING,
-            'commentsPerLoading' => self::COMMENTS_PER_LOADING
+            'commentsPerLoading' => self::COMMENTS_PER_LOADING,
+            'idTrick' => $id
         ]);
     }
 
-    #[Route('/getMoreComment/{id}', name: 'get_more_comment', methods: ['POST'])]
+    #[Route('/getMoreComments/{id}', name: 'get_more_comment', methods: ['POST'])]
     public function getMoreComments(Trick $trick, Request $request, CommentRepository $commentRepository): Response
     {
+        
         // configuration
         $commentsAlreadyLoaded = $request->get('totalDisplayComments');
         // selecting posts

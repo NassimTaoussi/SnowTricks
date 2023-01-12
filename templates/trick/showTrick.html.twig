@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Trick n°{{ trick.id }}{% endblock %}
+{% block title %}{{ trick.name }}{% endblock %}
 
 {% block body %}
     <div class="row">
@@ -18,18 +18,19 @@
         </div>
     </div>
     <div class="row">
-        <section id="allTricks" class="d-flex justify-content-center mt-5 flex-wrap">
+        <section id="allComments" class="d-flex justify-content-center mt-5 flex-wrap">
             {{ include ('comment/elements.html.twig') }}
         </section>
     </div>
     <div class="row">
         {% if totalAllComments > totalDisplayComments %}
-        <section class="d-flex justify-content-center" id="moreTricks">
+        <section class="d-flex justify-content-center" id="moreComments">
             <button class="btn btn-primary" id="loadMoreComments">Plus de commentaires</button>
             <input type="hidden" id="totalDisplayComments" value="{{ totalDisplayComments }}">
             <input type="hidden" id="totalAllComments" value="{{ totalAllComments }}">
             <input type="hidden" id="commentsPerLoading" value="{{ commentsPerLoading }}">
+            <input type="hidden" id="idTrick" value="{{ idTrick }}">
         </section>
-    {% endif %}
+        {% endif %}
     </div>
 {% endblock %}

@@ -13,6 +13,9 @@ use Doctrine\Persistence\ObjectManager;
 
 class TricksFixtures extends Fixture implements DependentFixtureInterface
 {
+
+    public const TRICK_REFERENCE = '4';
+
     public function load(ObjectManager $manager) :void
     {
         for ($count = 0; $count < 60; $count++) {
@@ -26,6 +29,7 @@ class TricksFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($trick);
         }
 
+        $this->addReference(self::TRICK_REFERENCE, $trick);
         $manager->flush();
     }
 
