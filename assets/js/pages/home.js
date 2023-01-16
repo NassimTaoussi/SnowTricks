@@ -11,6 +11,10 @@ $(document).ready(function() {
             $("#totalDisplayTricks").val(totalDisplayTricks + tricksPerLoading);
         console.log('hello 2');
 
+        console.log(totalDisplayTricks);
+        console.log(totalAllTricks);
+        console.log(tricksPerLoading);
+
         $.ajax({  
             url: '/getData',  
             type: 'POST',
@@ -26,16 +30,16 @@ $(document).ready(function() {
 
                     var totalDisplayTricks = Number($('#totalDisplayTricks').val());
                     // checking tricksNumber value is greater than totalTricks or not
-
+                    
                     if(totalDisplayTricks >= totalAllTricks){
                         // Change the text and background
                         $('#loadMoreTricks').addClass('d-none');
                         $('#moreTricks').innerHTML('Plus aucune figure de disponible')
                     }else{
                         $("#loadMoreTricks").text("Afficher plus de figures");
-                        /*if(totalDisplayTricks > 60) {
-                            $("#arrow-top").show();
-                        }*/
+                        if(totalDisplayTricks > 15) {
+                            $("#arrowUp").show();
+                        }
                     }
                 }, 400);
             },

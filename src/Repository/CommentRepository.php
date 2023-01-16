@@ -21,6 +21,39 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
+    public function countAllComments($trick) {
+        return $this->createQueryBuilder('c')
+        ->select("COUNT(c.id)")
+        ->where('c.trick = :trickId ')
+        ->setParameter('trickId', $trick->getId())
+        ->getQuery()
+        ->getSingleScalarResult();
+    }
+
+    public function getFirstComments($commentsForStarting, $trick)
+    {
+        $query = $this->createQueryBuilder('c')
+            ->orderBy('c.id')
+            ->where('c.trick = :trickId ')
+            ->setParameter('trickId', $trick->getId())
+            ->setFirstResult(0)
+            ->setMaxResults($commentsForStarting)
+            ;
+        return $query->getQuery()->getResult();
+    }
+
+    public function getMoreComments($commentsAlreadyLoaded, $commentsPerLoading, $trick)
+    {
+        $query = $this->createQueryBuilder('c')
+            ->orderBy('c.id')
+            ->where('c.trick = :trickId ')
+            ->setParameter('trickId', $trick->getId())
+            ->setFirstResult($commentsAlreadyLoaded)
+            ->setMaxResults($commentsPerLoading)
+            ;
+        return $query->getQuery()->getResult();
+    }
+
     public function save(Comment $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
