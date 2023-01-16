@@ -21,9 +21,11 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
-    public function countAllComments() {
+    public function countAllComments($trick) {
         return $this->createQueryBuilder('c')
         ->select("COUNT(c.id)")
+        ->where('c.trick = :trickId ')
+        ->setParameter('trickId', $trick->getId())
         ->getQuery()
         ->getSingleScalarResult();
     }

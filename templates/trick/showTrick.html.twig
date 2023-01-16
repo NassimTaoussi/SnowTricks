@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="row">
-        <section id="allComments" class="d-flex justify-content-center mt-5 flex-wrap">
+        <section id="allComments" class="mt-5 ">
             {{ include ('comment/elements.html.twig') }}
         </section>
     </div>
@@ -29,7 +29,7 @@
             <input type="hidden" id="totalDisplayComments" value="{{ totalDisplayComments }}">
             <input type="hidden" id="totalAllComments" value="{{ totalAllComments }}">
             <input type="hidden" id="commentsPerLoading" value="{{ commentsPerLoading }}">
-            <input type="hidden" id="idTrick" value="{{ idTrick }}">
+            <input type="hidden" id="idTrick" value="{{ trick.id }}">
         </section>
         {% endif %}
     </div>

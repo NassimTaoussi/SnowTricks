@@ -15,8 +15,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class TrickController extends AbstractController
 {
 
-    const COMMENTS_DISPLAY_STARTING = 10;
-    const COMMENTS_PER_LOADING = 10;
+    const COMMENTS_DISPLAY_STARTING = 5;
+    const COMMENTS_PER_LOADING = 5;
 
     #[Route('/addTrick', name: 'add_trick')]
     #[Route('editTrick/{id}', name: 'edit_trick')]
@@ -52,28 +52,28 @@ class TrickController extends AbstractController
     }
 
     #[Route('trick/{id}', name:'show_trick')]
-    public function showTrick(Trick $trick, CommentRepository $commentRepository, Request $request): Response
+    public function showTrick(Trick $trick, CommentRepository $commentRepository): Response
     {
-        $id = $request->attributes->get('id');
 
-        $totalAllComments = $commentRepository->countAllComments();
+        $totalAllComments = $commentRepository->countAllComments($trick);
+
         $commentsToDisplay = $commentRepository->getFirstComments(self::COMMENTS_DISPLAY_STARTING, $trick);
+
         return $this->render('trick/showTrick.html.twig', [
             'trick' => $trick,
             'totalAllComments' => $totalAllComments,
             'commentsToDisplay' => $commentsToDisplay,
             'totalDisplayComments' => self::COMMENTS_DISPLAY_STARTING,
             'commentsPerLoading' => self::COMMENTS_PER_LOADING,
-            'idTrick' => $id
         ]);
     }
 
-    #[Route('/getMoreComments/{id}', name: 'get_more_comment', methods: ['POST'])]
+    #[Route('/getMoreComments/{id}', name: 'get_more_comment', methods: ['GET'])]
     public function getMoreComments(Trick $trick, Request $request, CommentRepository $commentRepository): Response
     {
         
         // configuration
-        $commentsAlreadyLoaded = $request->get('totalDisplayComments');
+        $commentsAlreadyLoaded = $request->query->getInt('totalDisplayComments');
         // selecting posts
         $commentsToDisplay = $commentRepository->getMoreComments($commentsAlreadyLoaded, self::COMMENTS_PER_LOADING, $trick);
 
