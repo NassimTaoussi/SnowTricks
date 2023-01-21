@@ -43,8 +43,6 @@ class TrickType extends AbstractType
                 'allow_delete' => true,
                 'error_bubbling' => false
             ])
-
-            ->add('createdAt', )
         ;
     }
 

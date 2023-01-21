@@ -6,6 +6,7 @@ use App\Entity\Trick;
 use App\Form\TrickType;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,9 +23,14 @@ class TrickController extends AbstractController
     #[Route('editTrick/{id}', name: 'edit_trick')]
     public function addTrick(?Trick $trick, Request $request, EntityManagerInterface $entityManager): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
         if(!$trick)
         {
             $trick = new Trick();
+            $trick->setAuthor($user);
+            $trick->setCreatedAt(new \DateTimeImmutable('now'));
+            $trick->setUpdatedAt(new \DateTimeImmutable('now'));
         }
 
         $form = $this->createForm(TrickType::class, $trick);
