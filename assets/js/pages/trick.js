@@ -1,35 +1,28 @@
-//Photos
+const newItem = (e) => {
+    const collectionHolder = document.querySelector(e.currentTarget.dataset.collection);
 
-const photosCollectionHolder = document.querySelector("#trick_photos");
+    const item = document.createElement("div");
 
-let indexPhotos = photosCollectionHolder.querySelectorAll('div').length;
+    item.classList.add("col-4");
 
-const addPhoto = () => {
-    photosCollectionHolder.innerHTML += photosCollectionHolder.dataset.prototype.replace(/__name__/g, indexPhotos)
-    console.log(photosCollectionHolder.dataset.prototype);
-    indexPhotos++;
-};
+    item.innerHTML = collectionHolder
+    .dataset
+    .prototype
+    .replace(/__name__/g, collectionHolder.dataset.index);
 
-const btnPhoto = document.querySelector("#new-photo");
+    item.querySelector('.btn-remove').addEventListener('click', () => item.remove());
 
-if(btnPhoto) {
-    addEventListener('click', addPhoto);
+    collectionHolder.appendChild(item);
+
+    collectionHolder.dataset.index++;
+
 }
 
-// Videos
+document
+.querySelectorAll('.btn-remove')
+.forEach(btn => btn.addEventListener('click', (e) => e.currentTarget.closest('.col-4').remove()));
 
-const videosCollectionHolder = document.querySelector("#trick_videos");
+document
+.querySelectorAll('.btn-new')
+.forEach(btn => btn.addEventListener('click', newItem));
 
-let indexVideos = videosCollectionHolder.querySelectorAll('div').length;
-
-const addVideo = () => {
-    videosCollectionHolder.innerHTML += videosCollectionHolder.dataset.prototype.replace(/__name__/g, indexVideos)
-    console.log(videosCollectionHolder.dataset.prototype);
-    indexVideos++;
-};
-
-const btnVideo = document.querySelector("#new-video");
-
-if(btnVideo) {
-    addEventListener('click', addVideo);
-}
