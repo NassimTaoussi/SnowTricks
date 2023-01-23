@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\CoverFile;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 class Trick
@@ -39,10 +40,10 @@ class Trick
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Photo::class, orphanRemoval: true, cascade: ["persist"])]
     #[Assert\Count(min:1)]
     #[Assert\Valid]
+    #[Assert\Callback([Trick::class, 'getCoverFile'])]
     private Collection $photos;
 
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Video::class, orphanRemoval: true, cascade: ["persist"])]
-    #[Assert\Count(min:1)]
     #[Assert\Valid]
     private Collection $videos;
 
@@ -222,4 +223,9 @@ class Trick
 
         return $this;
     }
+
+    public static function getValidCover()
+     {
+          
+     }
 }

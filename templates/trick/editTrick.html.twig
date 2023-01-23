@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier un trick{% endblock %}
+
+{% block body %}
+    {{ form_start(form) }}
+        {{ form_widget(form._token) }}
+
+        {{ form_errors(form) }}
+        {{ form_row(form.name) }}
+
+        {{ form_row(form.description) }}
+
+        {{ form_row(form.category) }}
+
+        <button type="button" class="btn btn-primary btn-new" data-collection="#photos">Nouvelle photo</button>
+        <div 
+            id="photos"
+            class="row"
+            data-prototype="{{ include("trick/_photo.html.twig", {form: form.photos.vars.prototype})|e("html_attr") }}" 
+            data-index="{{ form.photos|length > 0 ? form.photos|last.vars.name + 1 : 0}}">
+
+            {% for photo in form.photos %}
+                <div class="col-4">
+                    {{ include("trick/_photo.html.twig", {form: photo}) }}
+                </div>
+            {% endfor %}
+        </div>
+        {{ form_errors(form.photos) }}
+
+        <button type="button" class="btn btn-primary btn-new" data-collection="#videos">Nouvelle video</button>
+        <div 
+            id="videos" 
+            class="row"
+            data-prototype="{{ include("trick/_video.html.twig", {form: form.videos.vars.prototype})|e("html_attr") }}" 
+            data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0}}">
+
+            {% for video in form.videos %}
+                <div class="col-4">
+                    {{ include("trick/_video.html.twig", {form: video}) }}
+                </div>
+            {% endfor %}
+        </div>
+        {{ form_errors(form.videos) }}
+
+    <button class="btn btn-primary">Valider</button>
+    {{ form_end(form, {render_rest: false}) }}
+{% endblock %}

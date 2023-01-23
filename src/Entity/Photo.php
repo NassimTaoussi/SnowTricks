@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\PhotoRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PhotoRepository::class)]
 class Photo
@@ -13,26 +15,34 @@ class Photo
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $link = null;
+    #[Assert\File(
+        maxSize: '5M',
+        mimeTypes: ['image/jpeg','image/jpg','image/png'],
+        maxSizeMessage: 'Taille du fichier limité à 5M',
+        mimeTypesMessage: 'Veuillez selectionner un format valide (jpeg, jpg, png)'
+    )]
+    private UploadedFile $file;
 
     #[ORM\ManyToOne(inversedBy: 'photos')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Trick $trick = null;
+
+    #[ORM\Column]
+    private ?bool $cover = false;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getLink(): ?string
+    public function getFile(): ?UploadedFile
     {
-        return $this->link;
+        return $this->file;
     }
 
-    public function setLink(string $link): self
+    public function setFile(?UploadedFile $file): self
     {
-        $this->link = $link;
+        $this->file = $file;
 
         return $this;
     }
@@ -45,6 +55,18 @@ class Photo
     public function setTrick(?Trick $trick): self
     {
         $this->trick = $trick;
+
+        return $this;
+    }
+
+    public function isCover(): ?bool
+    {
+        return $this->cover;
+    }
+
+    public function setCover(bool $cover): self
+    {
+        $this->cover = $cover;
 
         return $this;
     }

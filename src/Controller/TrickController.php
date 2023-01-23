@@ -20,32 +20,35 @@ class TrickController extends AbstractController
     const COMMENTS_PER_LOADING = 5;
 
     #[Route('/addTrick', name: 'add_trick')]
-    #[Route('editTrick/{id}', name: 'edit_trick')]
-    public function addTrick(?Trick $trick, Request $request, EntityManagerInterface $entityManager): Response
+    public function addTrick(Request $request, EntityManagerInterface $entityManager): Response
     {
         /** @var User $user */
         $user = $this->getUser();
-        if(!$trick)
-        {
-            $trick = new Trick();
-            $trick->setAuthor($user);
-            $trick->setCreatedAt(new \DateTimeImmutable('now'));
-            $trick->setUpdatedAt(new \DateTimeImmutable('now'));
-        }
+        
+        $trick = new Trick();
+        $trick->setAuthor($user);
+        $trick->setCreatedAt(new \DateTimeImmutable('now'));
+        $trick->setUpdatedAt(new \DateTimeImmutable('now'));
+        
 
         $form = $this->createForm(TrickType::class, $trick);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){
-            if(!$trick->getId()){
-                $entityManager->persist($trick);
-            }
+            $entityManager->persist($trick);
             $entityManager->flush();
             return $this->redirectToRoute('home');
         }
 
         return $this->render('trick/addTrick.html.twig', [
             'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('editTrick/{id}', name: 'edit_trick')]
+    public function editTrick(Request $request, EntityManagerInterface $entityManager) : Response {
+        return $this->render('trick/editTrick.html.twig', [
+           
         ]);
     }
 
