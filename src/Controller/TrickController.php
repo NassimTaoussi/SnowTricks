@@ -29,11 +29,27 @@ class TrickController extends AbstractController
         $trick->setAuthor($user);
         $trick->setCreatedAt(new \DateTimeImmutable('now'));
         $trick->setUpdatedAt(new \DateTimeImmutable('now'));
-        
+        dump($trick);
+        exit();
 
-        $form = $this->createForm(TrickType::class, $trick);
+        /*foreach($images as $image){
+            // On génère un nouveau nom de fichier
+            $fichier = md5(uniqid()).'.'.$image->guessExtension();
+            
+            // On copie le fichier dans le dossier uploads
+            $image->move(
+                $this->getParameter('images_directory'),
+                $fichier
+            );
+            
+            // On crée l'image dans la base de données
+            $img = new Images();
+            $img->setName($fichier);
+            $annonce->addImage($img);
+        }*/
 
-        $form->handleRequest($request);
+        $form = $this->createForm(TrickType::class, $trick)->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()){
             $entityManager->persist($trick);
             $entityManager->flush();

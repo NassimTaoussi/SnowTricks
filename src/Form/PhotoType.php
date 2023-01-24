@@ -23,7 +23,9 @@ class PhotoType extends AbstractType
             $form = $event->getForm();
             
             if($photo === null || $photo->getId() === null) {
-                $form->add('file', FileType::class);
+                $form->add('file', FileType::class, [
+                    'mapped' => false,
+                ]);
             }
         })
 
