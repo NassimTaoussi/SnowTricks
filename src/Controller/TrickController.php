@@ -46,9 +46,20 @@ class TrickController extends AbstractController
     }
 
     #[Route('editTrick/{id}', name: 'edit_trick')]
-    public function editTrick(Request $request, EntityManagerInterface $entityManager) : Response {
+    public function editTrick(Trick $trick, Request $request, EntityManagerInterface $entityManager) : Response {
+
+        $form = $this->createForm(TrickType::class, $trick);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $entityManager->persist($trick);
+            $entityManager->flush();
+            return $this->redirectToRoute('home');
+        }
+
         return $this->render('trick/editTrick.html.twig', [
-           
+            'form' => $form->createView()
         ]);
     }
 

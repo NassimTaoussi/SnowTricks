@@ -40,7 +40,6 @@ class Trick
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Photo::class, orphanRemoval: true, cascade: ["persist"])]
     #[Assert\Count(min:1)]
     #[Assert\Valid]
-    #[Assert\Callback([Trick::class, 'getCoverFile'])]
     private Collection $photos;
 
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Video::class, orphanRemoval: true, cascade: ["persist"])]
