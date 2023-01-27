@@ -8,13 +8,16 @@ use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+
 
 class TrickController extends AbstractController
 {
@@ -23,7 +26,14 @@ class TrickController extends AbstractController
     const COMMENTS_PER_LOADING = 5;
 
     #[Route('/addTrick', name: 'add_trick')]
-    public function addTrick(Request $request, EntityManagerInterface $entityManager): Response
+    #[IsGranted('ROLE_USER')]
+    public function addTrick(
+        Request $request, 
+        EntityManagerInterface $entityManager, 
+        SluggerInterface $slugger,
+        #[Autowire('%kernel.project_dir%/public/uploads')]
+        string $uploadsDir
+         ): Response
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -32,12 +42,23 @@ class TrickController extends AbstractController
         $trick->setAuthor($user);
         $trick->setCreatedAt(new \DateTimeImmutable('now'));
         $trick->setUpdatedAt(new \DateTimeImmutable('now'));
-    
 
         $form = $this->createForm(TrickType::class, $trick)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
 
+            
+            foreach($trick->getPhotos() as $photo) {
+                if($photo->getFile() === null) 
+                {
+                    $trick->removePhoto($photo);
+                    continue;
+                }
+                $photo->setName(Uuid::v4() . "." . $photo->getFile()->guessClientExtension());
+                $photo->getFile()->move($uploadsDir, $photo->getName());
+            }
+            
+            
             $entityManager->persist($trick);
             $entityManager->flush();
             return $this->redirectToRoute('home');

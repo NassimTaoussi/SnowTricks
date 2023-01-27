@@ -21,7 +21,7 @@ class Photo
         maxSizeMessage: 'Taille du fichier limité à 5M',
         mimeTypesMessage: 'Veuillez selectionner un format valide (jpeg, jpg, png)'
     )]
-    private UploadedFile $file;
+    private ?UploadedFile $file = null;
 
     #[ORM\ManyToOne(inversedBy: 'photos')]
     #[ORM\JoinColumn(nullable: false)]
@@ -31,7 +31,7 @@ class Photo
     private ?bool $cover = false;
 
     #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    private string $name;
 
     public function getId(): ?int
     {
@@ -74,7 +74,7 @@ class Photo
         return $this;
     }
 
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }

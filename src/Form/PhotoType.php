@@ -24,7 +24,7 @@ class PhotoType extends AbstractType
             
             if($photo === null || $photo->getId() === null) {
                 $form->add('file', FileType::class, [
-                    'mapped' => false,
+                    'mapped' => true,
                 ]);
             }
         })
