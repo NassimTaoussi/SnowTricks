@@ -29,7 +29,9 @@ class PhotoType extends AbstractType
             }
         })
 
-        ->add('cover', CheckboxType::class);
+        ->add('cover', CheckboxType::class, [
+            'required' => false
+        ]);
             
     }
 

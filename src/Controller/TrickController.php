@@ -70,13 +70,31 @@ class TrickController extends AbstractController
     }
 
     #[Route('editTrick/{id}', name: 'edit_trick')]
-    public function editTrick(Trick $trick, Request $request, EntityManagerInterface $entityManager) : Response {
+    public function editTrick(
+        Trick $trick, 
+        Request $request, 
+        EntityManagerInterface $entityManager,
+        SluggerInterface $slugger,
+        #[Autowire('%kernel.project_dir%/public/uploads')]
+        string $uploadsDir
+        ) : Response {
 
         $form = $this->createForm(TrickType::class, $trick);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
         {
+            foreach($trick->getPhotos() as $photo) {
+                if($photo->getFile() === null) 
+                {
+                    $trick->removePhoto($photo);
+                    continue;
+                }
+                $photo->setName(Uuid::v4() . "." . $photo->getFile()->guessClientExtension());
+                $photo->getFile()->move($uploadsDir, $photo->getName());
+                
+            }
+
             $entityManager->persist($trick);
             $entityManager->flush();
             return $this->redirectToRoute('home');
