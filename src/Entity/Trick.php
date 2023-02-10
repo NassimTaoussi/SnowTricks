@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\CoverFile;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
 class Trick
@@ -223,8 +224,15 @@ class Trick
         return $this;
     }
 
-    public static function getValidCover()
-     {
-          
-     }
+    #[Assert\Callback]
+    public function validateCover(ExecutionContextInterface $context, $payload,)
+    {
+        $covers = $this->photos->filter(fn (Photo $photo) => $photo->isCover())->count();
+
+        if($covers != 1) {
+            $context->buildViolation('Une image a déjà été selectionner en cover')
+            ->addViolation();
+        }
+        
+    }
 }

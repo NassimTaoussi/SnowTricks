@@ -64,6 +64,8 @@ class TrickController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
+        $trick->getPhotos()->clear();
+
         return $this->render('trick/addTrick.html.twig', [
             'form' => $form->createView()
         ]);
@@ -95,9 +97,17 @@ class TrickController extends AbstractController
                 
             }
 
-            $entityManager->persist($trick);
+
             $entityManager->flush();
             return $this->redirectToRoute('home');
+        }
+
+        foreach($trick->getPhotos() as $photo) 
+        {
+            if($photo->getFile() !== null && $photo->getId() === null) 
+            {
+                $trick->removePhoto($photo);
+            }
         }
 
         return $this->render('trick/editTrick.html.twig', [

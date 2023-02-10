@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\PhotoRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -33,6 +34,7 @@ class Photo
 
     #[ORM\Column(length: 255)]
     private string $name;
+
 
     public function getId(): ?int
     {
@@ -87,12 +89,5 @@ class Photo
         return $this;
     }
 
-    #[Assert\Callback]
-    public function validateCover(ExecutionContextInterface $context, $payload,)
-    {
-        $em = $this->getDoctrine()->getManager();
-        if ($this->isCover() == true) {
-            $photoRepository->updateCover($this);
-        }
-    }
+    
 }
