@@ -17,6 +17,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use App\Entity\Comment;
+use App\Form\CommentType;
 
 
 class TrickController extends AbstractController
@@ -124,15 +126,34 @@ class TrickController extends AbstractController
     }
 
     #[Route('trick/{id}', name:'show_trick')]
-    public function showTrick(Trick $trick, CommentRepository $commentRepository): Response
+    public function showTrick(Trick $trick, CommentRepository $commentRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
 
         $totalAllComments = $commentRepository->countAllComments($trick);
 
         $commentsToDisplay = $commentRepository->getFirstComments(self::COMMENTS_DISPLAY_STARTING, $trick);
 
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment)->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $comment->setAuthor($user);
+            dump($form);
+            exit();
+            //$comment->setMessage($form->get)
+
+            $entityManager->persist($comment);
+            $entityManager->flush();
+            return $this->redirectToRoute('home');
+        }
+
         return $this->render('trick/showTrick.html.twig', [
             'trick' => $trick,
+            'form' => $form,
             'totalAllComments' => $totalAllComments,
             'commentsToDisplay' => $commentsToDisplay,
             'totalDisplayComments' => self::COMMENTS_DISPLAY_STARTING,
