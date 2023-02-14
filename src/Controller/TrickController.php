@@ -142,9 +142,9 @@ class TrickController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             $comment->setAuthor($user);
-            dump($form);
-            exit();
-            //$comment->setMessage($form->get)
+            $comment->setMessage($form->get('message')->getData());
+            $comment->setCreatedAt(new \DateTimeImmutable('now'));
+            $comment->setTrick($trick);
 
             $entityManager->persist($comment);
             $entityManager->flush();

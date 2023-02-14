@@ -19,7 +19,7 @@
     </div>
     {% if is_granted("ROLE_USER") %}
     <div>
-        <form>
+        {{ form_start(form) }}
             <div class="form-outline mb-4">
                 {{ form_row(form.message, {'attr': {'class': 'form-control text-center'}}) }}
                 <textarea class="form-control" id="textAreaExample6" rows="3"></textarea>
@@ -29,7 +29,7 @@
                     Envoyer
                 </button>
             </div>
-        </form>
+        {{ form_end(form) }}
     </div>
     {% endif %}
     <div class="row">
