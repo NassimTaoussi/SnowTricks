@@ -1,9 +1,7 @@
 <div class="col-4 item">
-    {% if form.file is defined %}
-        {{ form_row(form.file) }}
-    {% endif %}
+    {{ form_row(form.file) }}
     {{ form_row(form.cover) }}
-    {% if form.vars.data is not null %}
+    {% if form.vars.data is not null and form.vars.data.name is not empty %}
         {# {{ dump(form.vars.data.name) }} #}
         <img src="/uploads/{{form.vars.data.name}}" alt="..." class="img-thumbnail">
     {% endif %}

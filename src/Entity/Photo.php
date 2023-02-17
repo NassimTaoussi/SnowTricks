@@ -33,7 +33,7 @@ class Photo
     private ?bool $cover = false;
 
     #[ORM\Column(length: 255)]
-    private string $name;
+    private string $name = "";
 
 
     public function getId(): ?int

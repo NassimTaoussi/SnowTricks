@@ -86,30 +86,25 @@ class TrickController extends AbstractController
         $form = $this->createForm(TrickType::class, $trick);
 
         $form->handleRequest($request);
+        dump($trick->getPhotos());
         if ($form->isSubmitted() && $form->isValid())
         {
             foreach($trick->getPhotos() as $photo) {
-                if($photo->getFile() === null) 
+                if($photo->getFile() === null && $photo->getId() === null)
                 {
                     $trick->removePhoto($photo);
                     continue;
                 }
-                $photo->setName(Uuid::v4() . "." . $photo->getFile()->guessClientExtension());
-                $photo->getFile()->move($uploadsDir, $photo->getName());
+                if($photo->getFile() != null) {
+                    $photo->setName(Uuid::v4() . "." . $photo->getFile()->guessClientExtension());
+                    $photo->getFile()->move($uploadsDir, $photo->getName());
+                }
+                
                 
             }
 
-
             $entityManager->flush();
             return $this->redirectToRoute('home');
-        }
-
-        foreach($trick->getPhotos() as $photo) 
-        {
-            if($photo->getFile() !== null && $photo->getId() === null) 
-            {
-                $trick->removePhoto($photo);
-            }
         }
 
         return $this->render('trick/editTrick.html.twig', [
