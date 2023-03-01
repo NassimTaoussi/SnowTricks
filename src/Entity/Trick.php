@@ -224,6 +224,18 @@ class Trick
         return $this;
     }
 
+    public function getCover(): null|Photo
+    {
+        foreach($this->photos as $photo) 
+        {
+            if($photo->isCover()) 
+            {
+                return $photo;
+            }
+        }
+        return null;
+    }
+
     #[Assert\Callback]
     public function validateCover(ExecutionContextInterface $context, $payload,)
     {

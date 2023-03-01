@@ -1,6 +1,6 @@
 {% for trick in tricksToDisplay %}
     <div class="card mb-4 ms-3 me-3 cardTrick">
-        <img class="card-img-top" src="..." alt="Card image cap">
+        <img class="img-fluid img-thumbnail" src="{{ asset("uploads/" ~ trick.cover.name) }}" alt="">
         <div class="card-body d-flex justify-content-between">
             <div class="titleTrick w-75">
                 <h5 class="card-title"><a href="{{ path('show_trick', {id: trick.id}) }}">{{trick.name}}</a></h5>

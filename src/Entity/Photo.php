@@ -30,7 +30,7 @@ class Photo
     private ?Trick $trick = null;
 
     #[ORM\Column]
-    private ?bool $cover = false;
+    private bool $cover = false;
 
     #[ORM\Column(length: 255)]
     private string $name = "";
@@ -65,7 +65,7 @@ class Photo
         return $this;
     }
 
-    public function isCover(): ?bool
+    public function isCover(): bool
     {
         return $this->cover;
     }

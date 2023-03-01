@@ -16,12 +16,15 @@
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
                     <a class="nav-item nav-link text-white" href="{{ path('home')}}">Accueil</a>
                     <a class="nav-item nav-link text-white" href="#">Tricks</a>
                     <a class="nav-item nav-link text-white" href="{{ path('app_register')}}">Inscription</a>
                     <a class="nav-item nav-link text-white" href="{{ path('app_login')}}">Connexion</a>
+                    {% if is_granted("ROLE_USER") %}
+                    <a class="nav-item nav-link text-white" href="{{ path('app_login')}}"><img id="userAvatar" class="" src="build/images/icones/user.svg"></a>
+                    {% endif %}
                 </div>
             </div>
         </nav>

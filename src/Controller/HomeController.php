@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,7 +21,7 @@ class HomeController extends AbstractController
     {
         $totalAllTricks = $trickRepository->countAllTricks();
         $tricksToDisplay = $trickRepository->getFirstTricks(self::TRICKS_DISPLAY_STARTING);
-        
+        dump($tricksToDisplay);
 
         return $this->render('home/index.html.twig', [
             'totalAllTricks' => $totalAllTricks,
@@ -40,6 +41,19 @@ class HomeController extends AbstractController
 
         return $this->render('trick/elements.html.twig', [
             'tricksToDisplay' => $tricksToDisplay,
+        ]);
+    }
+
+    #[Route('/editAvatar/{id}', name:'editAvatar', methods: ['POST'])]
+    public function editAvatar(User $user): Response
+    {
+        if($user->getAvatar() == null)
+        {
+
+        }
+
+        return $this->render('home/editAvatar.html.twig', [
+
         ]);
     }
 }
