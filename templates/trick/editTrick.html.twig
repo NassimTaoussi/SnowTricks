@@ -11,18 +11,18 @@
                 {{ form_errors(form) }}
 
                 {{ form_label(form.name, null, {'label_attr': {'class': 'mt-5'}}) }}</br>
-                {{ form_widget(form.name, {'attr': {'class': 'mt-1'}}) }}</br>
+                {{ form_widget(form.name, {'attr': {'class': 'mt-1 w-50'}}) }}</br>
 
                 {{ form_label(form.description, null, {'label_attr': {'class': 'mt-3'}}) }}</br>
-                {{ form_widget(form.description, {'attr': {'class': 'mt-1'}}) }}</br>
+                {{ form_widget(form.description, {'attr': {'class': 'mt-1 w-50'}}) }}</br>
 
                 {{ form_label(form.category, null, {'label_attr': {'class': 'mt-3'}}) }}</br>
-                {{ form_widget(form.category, {'attr': {'class': 'mt-1'}}) }}</br>
+                {{ form_widget(form.category, {'attr': {'class': 'mt-1 w-50'}}) }}</br>
 
                 <button type="button" class="btn btn-primary btn-new  mt-4" data-collection="#photos">Nouvelle photo</button>
                 <div 
                     id="photos"
-                    class="row"
+                    class="row d-flex justify-content-center"
                     data-prototype="{{ include("trick/_photo.html.twig", {form: form.photos.vars.prototype})|e("html_attr") }}" 
                     data-index="{{ form.photos|length > 0 ? form.photos|last.vars.name + 1 : 0}}">
 
@@ -37,7 +37,7 @@
                 <button type="button" class="btn btn-primary btn-new mt-4" data-collection="#videos">Nouvelle video</button>
                 <div 
                     id="videos" 
-                    class="row"
+                    class="row d-flex justify-content-center"
                     data-prototype="{{ include("trick/_video.html.twig", {form: form.videos.vars.prototype})|e("html_attr") }}" 
                     data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0}}">
 

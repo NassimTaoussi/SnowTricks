@@ -3,13 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\AvatarFormType;
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 class HomeController extends AbstractController
 {
 
@@ -44,16 +47,32 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/editAvatar/{id}', name:'editAvatar', methods: ['POST'])]
-    public function editAvatar(User $user): Response
+    #[Route('/editAvatar/{id}', name:'editAvatar', methods: ['POST', 'GET'])]
+    public function editAvatar(
+        User $user, 
+        Request $request,
+        EntityManagerInterface $entityManager,
+        #[Autowire('%kernel.project_dir%/public/uploads')]
+        string $uploadsDir
+        ): Response
     {
-        if($user->getAvatar() == null)
-        {
+        $form = $this->createForm(AvatarFormType::class, $user)->handleRequest($request);
 
+        if ($form->isSubmitted() && $form->isValid())
+        {
+                $file = $form['avatar']->getData();
+                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = Uuid::v4($originalFilename) . "." . $file->guessExtension();
+                $file->move($uploadsDir, $newFilename);
+                $user->setAvatar($newFilename);
+                $entityManager->flush();
+                return $this->redirectToRoute('home');
+            
         }
 
         return $this->render('home/editAvatar.html.twig', [
-
+            'form' => $form,
+            'user' => $user,
         ]);
     }
 }
