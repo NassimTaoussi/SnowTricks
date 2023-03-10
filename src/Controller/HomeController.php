@@ -7,6 +7,7 @@ use App\Form\AvatarFormType;
 use App\Form\TrickType;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -47,15 +48,18 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/editAvatar/{id}', name:'editAvatar', methods: ['POST', 'GET'])]
+    #[Route('/editAvatar', name:'editAvatar', methods: ['POST', 'GET'])]
+    #[IsGranted('ROLE_USER')]
     public function editAvatar(
-        User $user, 
         Request $request,
         EntityManagerInterface $entityManager,
         #[Autowire('%kernel.project_dir%/public/uploads')]
         string $uploadsDir
         ): Response
     {
+        /** @var User $user */
+        $user = $this->getUser();
+
         $form = $this->createForm(AvatarFormType::class, $user)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid())

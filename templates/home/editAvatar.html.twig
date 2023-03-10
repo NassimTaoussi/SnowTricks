@@ -13,11 +13,11 @@
         <div class ="d-flex justify-content-center w-100 h-100 mt-4">
         {% if (user.avatar is null) or (user.avatar is empty) %}
             <div class="w-25 h-25">
-                <img class="img-fluid" src="{{ asset('build/images/icones/user.svg') }}">
+                <img class="img-fluid" id="avatar" src="{{ asset('build/images/icones/user.svg') }}">
             </div>
         {% else %}
             <div class="w-25 h-25">
-                <img class="img-fluid" src="{{ asset('uploads/' ~ user.avatar) }}">
+                <img class="img-fluid" id="avatar" src="{{ asset('uploads/' ~ user.avatar) }}">
             </div>
         {% endif %}
         </div>
