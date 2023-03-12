@@ -14,7 +14,7 @@ if (inputFile != null) {
         if(images.length > 0) {
             console.log('2');
             const reader = new FileReader();
-            const image = document.getElementById('avatar');
+            const image = document.querySelector('#avatar img');
             reader.onload = () => {
                 console.log(images);
                 image.src = reader.result;

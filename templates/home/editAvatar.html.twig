@@ -9,27 +9,26 @@
 {% block title %}Modifie ton avatar !{% endblock %}
 
 {% block body %}
-    {% if is_granted("ROLE_USER") %}
-        <div class ="d-flex justify-content-center w-100 h-100 mt-4">
-        {% if (user.avatar is null) or (user.avatar is empty) %}
-            <div class="w-25 h-25">
-                <img class="img-fluid" id="avatar" src="{{ asset('build/images/icones/user.svg') }}">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+            {{ form_start(form) }}
+
+
+            <div id="avatar">
+                {% if (user.avatar is null) or (user.avatar is empty) %}
+                    <img class="img-fluid" src="{{ asset('build/images/icones/user.svg') }}">
+                {% else %}
+                    <img class="img-fluid" src="{{ asset('uploads/' ~ user.avatar) }}">
+                {% endif %}
+
+                {{ form_label(form.avatar, 'Sélectionnez une image', ) }}
+                {{ form_widget(form.avatar) }}
             </div>
-        {% else %}
-            <div class="w-25 h-25">
-                <img class="img-fluid" id="avatar" src="{{ asset('uploads/' ~ user.avatar) }}">
+                {{ form_widget(form._token) }}
+                <button type="submit" class="btn btn-primary w-100 mt-3">Valider</button>
+            {{ form_end(form, {render_rest: false}) }}
             </div>
-        {% endif %}
         </div>
-        
-        <div class="d-flex justify-content-center">
-        {{ form_start(form) }}
-            {{ form_widget(form._token) }}
-            <div>
-            {{ form_widget(form.avatar, {'attr': {'class': 'mt-3 w-100'}}) }}</br>
-            </div>
-            <button type="submit" class="btn btn-primary ms-4 w-100 mt-3">Valider</button>
-        {{ form_end(form, {render_rest: false}) }}
-        </div>
-    {% endif %}
+    </div>
 {% endblock %}
