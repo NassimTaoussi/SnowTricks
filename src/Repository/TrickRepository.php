@@ -32,9 +32,6 @@ class TrickRepository extends ServiceEntityRepository
     public function getFirstTricks($tricksForStarting)
     {
         $query = $this->createQueryBuilder('t')
-            //->innerJoin(Photo::class, "p")
-            //->where("p.trick = t.id")
-            //->andWhere("p.cover = true")
             ->orderBy('t.id')
             ->setFirstResult(0)
             ->setMaxResults($tricksForStarting)

@@ -4,16 +4,35 @@
 
 {% block body %}
     <div class="row d-flex justify-content-center">
-        <div class="col-10">
+        <div class="col-12">
             <div class="card mb-3 mt-5">
-                <img src="" class="card-img-top " alt="">
+                <img src="{{ asset("uploads/" ~ trick.cover.name) }}" class="img-fluid " alt="">
                 <div class="card-body">
                     <h5 class="card-title text-center">{{trick.name}}</h5>   
                 </div>
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row d-flex justify-content-center">
+        <div class="col-6 d-flex justify-content-start">
+            {% for photo in trick.photos %}
+                <div class="w-100 h-25">
+                    <a class="d-block overlay" data-fslightbox="lightbox-basic" href="{{ asset("uploads/" ~ photo.name ) }}" >
+                        <img id="imageGallery" src ="{{ asset("uploads/" ~ photo.name ) }}">
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="col-6 d-flex justify-content-start">
+            {% for video in trick.videos %}
+                <div class="">
+                    
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row mt-5">
         <div class="d-flex justify-content-center">
             <div class="col-8">
                 <p class="text-start">{{trick.description}}</p>
