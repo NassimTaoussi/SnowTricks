@@ -1,0 +1,85 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ trick.name }}{% endblock %}
+
+{% block body %}
+
+<main class="pt-5 min-vh-100">
+  <div class="container bg-white h-100 shadow rounded mb-5">
+    <div class="row no-gutters h-100">
+      <div class="col-12 position-relative ratio ratio-16x9">
+        <img src="{{ asset("uploads/" ~ trick.cover.name) }}" alt="" class="rounded-top ratio ratio-16x9 z-1 w-100 position-absolute top-0 left-0">
+        <h1 class="z-2 m-0 flex-shrink-0  d-flex justify-content-center align-items-center">Super figure de la mort</h1>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-center mt-4">
+        <div class="col-6 d-flex justify-content-start">
+            {% for photo in trick.photos %}
+                <div class="w-100 h-25">
+                    <a class="d-block overlay" data-fslightbox="lightbox-basic" href="{{ asset("uploads/" ~ photo.name ) }}" >
+                        <img id="imageGallery" src ="{{ asset("uploads/" ~ photo.name ) }}">
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="col-6 d-flex justify-content-start">
+            {% for video in trick.videos %}
+                <div class="">
+                    
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="row mt-5">
+        <div class="d-flex justify-content-center">
+            <div class="col-8">
+                <p class="text-start">{{trick.description}}</p>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <p class="me-3"><small class="text-muted">{{trick.category.name}}</small></p>
+            <p class="me-3"><small class="text-muted">Crée le {{trick.updatedAt|date('d/m/Y')}}</small></p>
+            <p class="me-3"><small class="text-muted">Crée par {{trick.author}}</small></p>
+            <p class=""><small class="text-muted">Mis à jour le {{trick.updatedAt|date('d/m/Y')}}</small></p>
+        </div> 
+    </div>
+    {% if is_granted("ROLE_USER") %}
+    <div class="row border-top border-bottom me-5 ms-5 pt-5 pb-5">
+        <div class="col-12 d-flex justify-content-center">
+        {{ form_start(form) }}
+            <div class="form-outline mb-4 me-4 d-flex justify-content-center">
+                <div class="w-100">
+                    {{ form_widget(form.message, {'attr': {'class': 'form-control text-center'}}) }}
+                </div>
+                <div class="w-50">
+                    <button type="submit" class="btn btn-primary ms-4 w-100">Laisser un commentaire</button>
+                </div>
+            </div>
+
+        {{ form_end(form) }}
+        </div>
+    </div>
+    {% endif %}
+    <div class="row mb-4">
+        <section id="allComments" class="row mt-5 d-flex justify-content-center">
+            <div class="col-8 col-lg-6 col-md-8 col-sm-10">
+                {{ include ('comment/elements.html.twig') }}
+            </div>
+        </section>
+    </div>
+    <div class="row">
+        {% if totalAllComments > totalDisplayComments %}
+        <section class="d-flex justify-content-center" id="moreComments">
+            <button class="btn btn-primary mt-5" id="loadMoreComments">Plus de commentaires</button>
+            <input type="hidden" id="totalDisplayComments" value="{{ totalDisplayComments }}">
+            <input type="hidden" id="totalAllComments" value="{{ totalAllComments }}">
+            <input type="hidden" id="commentsPerLoading" value="{{ commentsPerLoading }}">
+            <input type="hidden" id="idTrick" value="{{ trick.id }}">
+        </section>
+        {% endif %}
+    </div>
+  </div>
+</main>
+
+{% endblock %}

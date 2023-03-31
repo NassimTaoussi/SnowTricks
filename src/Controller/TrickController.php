@@ -146,7 +146,7 @@ class TrickController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('trick/showTrick.html.twig', [
+        return $this->render('trick/showTrickNew.html.twig', [
             'trick' => $trick,
             'form' => $form,
             'totalAllComments' => $totalAllComments,
