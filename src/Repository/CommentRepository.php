@@ -33,7 +33,7 @@ class CommentRepository extends ServiceEntityRepository
     public function getFirstComments($commentsForStarting, $trick)
     {
         $query = $this->createQueryBuilder('c')
-            ->orderBy('c.id')
+            ->orderBy('c.createdAt', 'DESC')
             ->where('c.trick = :trickId ')
             ->setParameter('trickId', $trick->getId())
             ->setFirstResult(0)
@@ -45,7 +45,7 @@ class CommentRepository extends ServiceEntityRepository
     public function getMoreComments($commentsAlreadyLoaded, $commentsPerLoading, $trick)
     {
         $query = $this->createQueryBuilder('c')
-            ->orderBy('c.id')
+            ->orderBy('c.createdAt', 'DESC')
             ->where('c.trick = :trickId ')
             ->setParameter('trickId', $trick->getId())
             ->setFirstResult($commentsAlreadyLoaded)

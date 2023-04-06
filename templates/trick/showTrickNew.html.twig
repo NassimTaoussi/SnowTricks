@@ -3,17 +3,28 @@
 {% block title %}{{ trick.name }}{% endblock %}
 
 {% block body %}
-    <div class="row d-flex justify-content-center">
-        <div class="col-12">
-            <div class="card mb-3 mt-5">
-                <img src="{{ asset("uploads/" ~ trick.cover.name) }}" class="img-fluid " alt="">
-                <div class="card-body">
-                    <h5 class="card-title text-center">{{trick.name}}</h5>   
-                </div>
+
+<main class="pt-5 min-vh-100">
+  <div class="container bg-white h-100 shadow rounded mb-5">
+    <div class="row no-gutters h-100">
+      <div class="col-12 position-relative ratio ratio-16x9">
+        <img src="{{ asset("uploads/" ~ trick.cover.name) }}" alt="" class="rounded-top ratio ratio-16x9 z-1 w-100 position-absolute top-0 left-0">
+        <h1 class="z-2 m-0 flex-shrink-0  d-flex justify-content-center align-items-center">Super figure de la mort</h1>
+      </div>
+    </div>
+
+    <div id="seeMedias">
+        <button id="buttonMedias" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalMedias">
+            Voir les medias
+        </button>
+
+        <div class="modal fade" id="modalMedias">
+            <div class="modal-dialog modal-dialog-scrollable">
             </div>
         </div>
     </div>
-    <div class="row d-flex justify-content-center">
+
+    <div id="mediaTricks" class="row d-flex justify-content-center mt-4">
         <div class="col-6 d-flex justify-content-start">
             {% for photo in trick.photos %}
                 <div class="w-100 h-25">
@@ -62,7 +73,7 @@
         </div>
     </div>
     {% endif %}
-    <div class="row">
+    <div class="row mb-4">
         <section id="allComments" class="row mt-5 d-flex justify-content-center">
             <div class="col-8 col-lg-6 col-md-8 col-sm-10">
                 {{ include ('comment/elements.html.twig') }}
@@ -80,4 +91,7 @@
         </section>
         {% endif %}
     </div>
+  </div>
+</main>
+
 {% endblock %}

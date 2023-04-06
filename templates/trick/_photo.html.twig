@@ -1,0 +1,11 @@
+<div class="col-4 item ">
+    {{ form_row(form.file) }}
+    {{ form_row(form.cover) }}
+    {% if form.vars.data is not null and form.vars.data.name is not empty %}
+        {# {{ dump(form.vars.data.name) }} #}
+        <img src="/uploads/{{form.vars.data.name}}" alt="..." class="img-thumbnail">
+    {% endif %}
+    <div class="form-group">
+        <button type="button" class="btn btn-danger btn-remove">Supprimer</button>
+    </div>
+</div>

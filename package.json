@@ -25,6 +25,7 @@
     "dependencies": {
         "bootstrap": "^5.2.2",
         "datatables.net": "^1.13.1",
-        "datatables.net-dt": "^1.13.1"
+        "datatables.net-dt": "^1.13.1",
+        "fslightbox": "^3.4.1"
     }
 }

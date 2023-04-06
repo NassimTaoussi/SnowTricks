@@ -30,12 +30,18 @@ class TrickType extends AbstractType
             ])
 
             ->add('photos', CollectionType::class , [
-                'mapped' => false,
-                'entry_type' => UrlType::class,
+                'entry_type' => PhotoType::class,
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'error_bubbling' => false
             ])
             ->add('videos', CollectionType::class , [
-                'mapped' => false,
-                'entry_type' => UrlType::class,
+                'entry_type' => VideoType::class,
+                'by_reference' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'error_bubbling' => false
             ])
         ;
     }

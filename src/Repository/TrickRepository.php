@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Trick;
+use App\Entity\Photo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

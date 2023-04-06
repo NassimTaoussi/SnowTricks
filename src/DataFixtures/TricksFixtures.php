@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\Trick;
 use App\DataFixtures\UsersFixtures;
 use App\Entity\Category;
+use App\Entity\Photo;
 use App\Repository\CategoryRepository;
 use DateTimeImmutable;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -26,6 +27,14 @@ class TricksFixtures extends Fixture implements DependentFixtureInterface
             $trick->setCreatedAt(new DateTimeImmutable());
             $trick->setUpdatedAt(new DateTimeImmutable());
             $trick->setCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE));
+            for($i = 1; $i < 3; $i++) {
+                $photo = new Photo();
+                $photo->setName("image.png");
+                if($i === 1) {
+                    $photo->setCover(true);
+                }
+                $trick->addPhoto($photo);
+            }
             $manager->persist($trick);
         }
 

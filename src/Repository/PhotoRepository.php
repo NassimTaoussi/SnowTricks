@@ -39,6 +39,21 @@ class PhotoRepository extends ServiceEntityRepository
         }
     }
 
+    public function updateCover($photo) {
+        $this->createQueryBuilder('p')
+        ->update('photos', 'p')
+        ->set('p.cover', false)
+        ->where('p.trick = :trick ')
+        ->andWhere('p.id NOT IN (:id)')
+        ->setParameters([
+            'id' => $photo->getId(),
+            "trick" => $photo->getTrick(),
+        ])
+
+        ->getQuery()
+        ->execute();
+    }
+
 //    /**
 //     * @return Photo[] Returns an array of Photo objects
 //     */

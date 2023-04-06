@@ -1,0 +1,22 @@
+main {
+    background-image: url(../../images/home/unsplash-laptop.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+#seeMedias {
+  display: none;
+}
+
+@media (min-width: 320px) and (max-width: 480px) 
+{
+
+  #mediaTricks {
+    display: none !important;
+  }
+
+  #seeMedias {
+    display: block;
+  }
+
+}

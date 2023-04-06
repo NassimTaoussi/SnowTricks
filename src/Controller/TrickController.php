@@ -6,11 +6,20 @@ use App\Entity\Trick;
 use App\Form\TrickType;
 use App\Repository\CommentRepository;
 use App\Repository\TrickRepository;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Uid\Uuid;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use App\Entity\Comment;
+use App\Form\CommentType;
+
 
 class TrickController extends AbstractController
 {
@@ -19,26 +28,88 @@ class TrickController extends AbstractController
     const COMMENTS_PER_LOADING = 5;
 
     #[Route('/addTrick', name: 'add_trick')]
-    #[Route('editTrick/{id}', name: 'edit_trick')]
-    public function addTrick(?Trick $trick, Request $request, EntityManagerInterface $entityManager): Response
+    #[IsGranted('ROLE_USER')]
+    public function addTrick(
+        Request $request, 
+        EntityManagerInterface $entityManager, 
+        SluggerInterface $slugger,
+        #[Autowire('%kernel.project_dir%/public/uploads')]
+        string $uploadsDir
+         ): Response
     {
-        if(!$trick)
-        {
-            $trick = new Trick();
+        /** @var User $user */
+        $user = $this->getUser();
+        
+        $trick = new Trick();
+        $trick->setAuthor($user);
+        $trick->setCreatedAt(new \DateTimeImmutable('now'));
+        $trick->setUpdatedAt(new \DateTimeImmutable('now'));
+
+        $form = $this->createForm(TrickType::class, $trick)->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+
+            
+            foreach($trick->getPhotos() as $photo) {
+                if($photo->getFile() === null) 
+                {
+                    $trick->removePhoto($photo);
+                    continue;
+                }
+                $photo->setName(Uuid::v4() . "." . $photo->getFile()->guessClientExtension());
+                $photo->getFile()->move($uploadsDir, $photo->getName());
+            }
+            
+            
+            $entityManager->persist($trick);
+            $entityManager->flush();
+            $this->addFlash('success','Vous venez de créé un nouveau trick');
+            return $this->redirectToRoute('home');
         }
+
+        $trick->getPhotos()->clear();
+
+        return $this->render('trick/addTrick.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('editTrick/{id}', name: 'edit_trick')]
+    public function editTrick(
+        Trick $trick, 
+        Request $request, 
+        EntityManagerInterface $entityManager,
+        SluggerInterface $slugger,
+        #[Autowire('%kernel.project_dir%/public/uploads')]
+        string $uploadsDir
+        ) : Response {
 
         $form = $this->createForm(TrickType::class, $trick);
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()){
-            if(!$trick->getId()){
-                $entityManager->persist($trick);
+        dump($trick->getPhotos());
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            foreach($trick->getPhotos() as $photo) {
+                if($photo->getFile() === null && $photo->getId() === null)
+                {
+                    $trick->removePhoto($photo);
+                    continue;
+                }
+                if($photo->getFile() != null) {
+                    $photo->setName(Uuid::v4() . "." . $photo->getFile()->guessClientExtension());
+                    $photo->getFile()->move($uploadsDir, $photo->getName());
+                }
+                
+                
             }
+
             $entityManager->flush();
+            $this->addFlash('success','Vous venez de mettre à jour ce trick');
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('trick/addTrick.html.twig', [
+        return $this->render('trick/editTrick.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -52,15 +123,34 @@ class TrickController extends AbstractController
     }
 
     #[Route('trick/{id}', name:'show_trick')]
-    public function showTrick(Trick $trick, CommentRepository $commentRepository): Response
+    public function showTrick(Trick $trick, CommentRepository $commentRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
-
+        dump($trick);
         $totalAllComments = $commentRepository->countAllComments($trick);
 
         $commentsToDisplay = $commentRepository->getFirstComments(self::COMMENTS_DISPLAY_STARTING, $trick);
 
-        return $this->render('trick/showTrick.html.twig', [
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment)->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid())
+        {
+            $comment->setAuthor($user);
+            $comment->setMessage($form->get('message')->getData());
+            $comment->setCreatedAt(new \DateTimeImmutable('now'));
+            $comment->setTrick($trick);
+
+            $entityManager->persist($comment);
+            $entityManager->flush();
+            return $this->redirectToRoute('home');
+        }
+
+        return $this->render('trick/showTrickNew.html.twig', [
             'trick' => $trick,
+            'form' => $form,
             'totalAllComments' => $totalAllComments,
             'commentsToDisplay' => $commentsToDisplay,
             'totalDisplayComments' => self::COMMENTS_DISPLAY_STARTING,

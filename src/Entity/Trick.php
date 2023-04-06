@@ -6,8 +6,13 @@ use App\Repository\TrickRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Validator\CoverFile;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
+#[UniqueEntity(fields: ['name'], message: 'il y a dejà un trick avec ce nom')]
 class Trick
 {
     #[ORM\Id]
@@ -19,7 +24,7 @@ class Trick
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
@@ -35,10 +40,13 @@ class Trick
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Photo::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Photo::class, orphanRemoval: true, cascade: ["persist"])]
+    #[Assert\Count(min:1)]
+    #[Assert\Valid]
     private Collection $photos;
 
-    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Video::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Video::class, orphanRemoval: true, cascade: ["persist"])]
+    #[Assert\Valid]
     private Collection $videos;
 
     #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Comment::class, orphanRemoval: true)]
@@ -216,5 +224,29 @@ class Trick
         }
 
         return $this;
+    }
+
+    public function getCover(): null|Photo
+    {
+        foreach($this->photos as $photo) 
+        {
+            if($photo->isCover()) 
+            {
+                return $photo;
+            }
+        }
+        return null;
+    }
+
+    #[Assert\Callback]
+    public function validateCover(ExecutionContextInterface $context, $payload,)
+    {
+        $covers = $this->photos->filter(fn (Photo $photo) => $photo->isCover())->count();
+
+        if($covers != 1) {
+            $context->buildViolation('Une image a déjà été selectionner en cover')
+            ->addViolation();
+        }
+        
     }
 }
