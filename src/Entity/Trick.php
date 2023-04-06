@@ -9,8 +9,10 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\CoverFile;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
+#[UniqueEntity(fields: ['name'], message: 'il y a dejà un trick avec ce nom')]
 class Trick
 {
     #[ORM\Id]
@@ -22,7 +24,7 @@ class Trick
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
