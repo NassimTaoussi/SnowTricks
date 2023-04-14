@@ -12,22 +12,20 @@
     <div class="container mt-4">
         <div class="row justify-content-center">
             <div class="col-12 col-md-8 col-lg-6">
-            {{ form_start(form) }}
+                {{ form_start(form) }}
+                <div id="avatar">
+                    {% if (user.avatar is null) or (user.avatar is empty) %}
+                        <img class="img-fluid" src="{{ asset('build/images/icones/user.svg') }}">
+                    {% else %}
+                        <img class="img-fluid" src="{{ asset('uploads/' ~ user.avatar) }}">
+                    {% endif %}
 
-
-            <div id="avatar">
-                {% if (user.avatar is null) or (user.avatar is empty) %}
-                    <img class="img-fluid" src="{{ asset('build/images/icones/user.svg') }}">
-                {% else %}
-                    <img class="img-fluid" src="{{ asset('uploads/' ~ user.avatar) }}">
-                {% endif %}
-
-                {{ form_label(form.avatar, 'Sélectionnez une image', ) }}
-                {{ form_widget(form.avatar) }}
-            </div>
+                    {{ form_label(form.avatar, 'Sélectionnez une image', ) }}
+                    {{ form_widget(form.avatar) }}
+                </div>
                 {{ form_widget(form._token) }}
                 <button type="submit" class="btn btn-primary w-100 mt-3">Valider</button>
-            {{ form_end(form, {render_rest: false}) }}
+                {{ form_end(form, {render_rest: false}) }}
             </div>
         </div>
     </div>

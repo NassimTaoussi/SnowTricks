@@ -109,8 +109,9 @@ class TrickController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('trick/editTrick.html.twig', [
-            'form' => $form->createView()
+        return $this->render('trick/editTrickNew.html.twig', [
+            'form' => $form->createView(),
+            'trick' => $trick,
         ]);
     }
 

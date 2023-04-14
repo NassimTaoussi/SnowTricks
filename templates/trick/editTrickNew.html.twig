@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le {{ trick.name }}{% endblock %}
+
+{% block body %}
+
+<main class="pt-5 min-vh-100">
+    <div class="container bg-white h-100 shadow rounded mb-5">
+
+        <div class="row no-gutters h-100">
+            {{ form_start(form) }}
+            {{ form_widget(form._token) }}
+
+            {{ form_errors(form) }}
+            <div id="coverEdit" class="col-12 position-relative ratio ratio-16x9">
+                <img src="{{ asset("uploads/" ~ trick.cover.name) }}" alt="" class="rounded-top ratio ratio-16x9 z-1 w-100 position-absolute top-0 left-0">
+                <h1 class="z-2 m-0 flex-shrink-0  d-flex justify-content-center align-items-center">Super figure de la mort</h1>
+                {#{{ form_label(form.avatar, 'Sélectionnez une image', ) }}
+                {{ form_widget(form.avatar) }}#}
+            </div>
+
+        </div>
+    
+
+        <div id="photosEdit" class="row d-flex justify-content-center mt-4">
+            <div class="col-6 d-flex justify-content-start">
+                <button type="button" class="btn btn-primary btn-new  mt-4" data-collection="#photos">Nouvelle photo</button>
+                    <div 
+                        id="photos"
+                        class="row d-flex justify-content-center"
+                        data-prototype="{{ include("trick/_photo.html.twig", {form: form.photos.vars.prototype})|e("html_attr") }}" 
+                        data-index="{{ form.photos|length > 0 ? form.photos|last.vars.name + 1 : 0}}">
+
+                        {% for photo in form.photos %}
+                            <div class="col-4">
+                                {{ include("trick/_photo.html.twig", {form: photo}) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {{ form_errors(form.photos) }}
+            </div>
+        </div>
+
+        <div>
+            {{ form_label(form.description, null, {'label_attr': {'class': 'mt-3'}}) }}</br>
+            {{ form_widget(form.description, {'attr': {'class': 'mt-1 w-50'}}) }}</br>
+        </div>
+
+        <button class="btn btn-success mt-4">Valider</button>
+        {{ form_end(form, {render_rest: false}) }}
+
+    </div>
+</main>
+
+{% endblock %}
