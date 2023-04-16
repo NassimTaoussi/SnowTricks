@@ -18,15 +18,24 @@ class TrickType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom du trick :',
+                'attr' => [
+                    'class' => 'w-100'
+                ],
+                'label'   => false,
             ])
             ->add('description', TextType::class, [
-                'label' => 'Description :',
+                'attr' => [
+                    'class' => 'w-100'
+                ],
+                'label'   => false,
             ])
             ->add('category', EntityType::class, [
                 'choice_label' => "name",
-                'label' => 'Categorie :',
                 'class' => Category::class,
+                'attr' => [
+                    'class' => 'w-25'
+                ],
+                'label'   => false,
             ])
 
             ->add('photos', CollectionType::class , [

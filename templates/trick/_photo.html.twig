@@ -1,11 +1,20 @@
-<div class="col-4 item ">
-    {{ form_row(form.file) }}
-    {{ form_row(form.cover) }}
+
+
+    {# {{ form_row(form.cover) }} #}
+
     {% if form.vars.data is not null and form.vars.data.name is not empty %}
         {# {{ dump(form.vars.data.name) }} #}
-        <img src="/uploads/{{form.vars.data.name}}" alt="..." class="img-thumbnail">
+        <img src="/uploads/{{form.vars.data.name}}" alt="..." class="img-thumbnail w-100 h-50">
     {% endif %}
-    <div class="form-group">
-        <button type="button" class="btn btn-danger btn-remove">Supprimer</button>
+
+    <div class="w-100 d-flex justify-content-end mt-3">
+        <div class="w-75 d-flex justify-content-end border border-secondary">
+            <span id="filePhotoEdit">
+                {{ form_label(form.file, 'E', ) }}
+                {{ form_widget(form.file) }}
+            </span>
+            <span id="filePhotoDelete">
+                <img class="deletePhotoFile" src="{{ asset('build/images/icones/delete.svg') }}">
+            </span>
+        </div>
     </div>
-</div>

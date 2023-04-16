@@ -29,9 +29,11 @@ class PhotoType extends AbstractType
         ->add('file', FileType::class, [
             'mapped' => true,
             'required' => false,
+            'label'   => false,
         ])
         ->add('cover', CheckboxType::class, [
-            'required' => false
+            'required' => false,
+            'label'   => false,
         ]);
             
     }

@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TrickRepository::class)]
-#[UniqueEntity(fields: ['name'], message: 'il y a dejà un trick avec ce nom')]
+#[UniqueEntity(fields: 'name', message: 'il y a dejà un trick avec ce nom')]
 class Trick
 {
     #[ORM\Id]
