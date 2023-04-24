@@ -29,34 +29,6 @@
             </div>
         </div>
 
-        <div class="modal fade" id="modalMedias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Medias</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-
-                    <div class="modal-body">
-                        <div class="row d-flex justify-content-center flex-column">
-                            <div class="col-12 d-flex justify-content-center flex-column">
-                                
-                            </div>
-                        </div>
-                        <div class="row d-flex justify-content-center flex-column">
-                            <div class="col-12 d-flex justify-content-center">
-                                
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
         <div class="row d-flex justify-content-center mt-4" id="mediaTricks" >
             <div id="photosEdit" class="col-lg-6 col-md-10 col-sm-12 d-flex justify-content-start">
                 <div 
@@ -81,10 +53,11 @@
                     class="row d-flex justify-content-center"
                     data-prototype="{{ include("trick/_video.html.twig", {form: form.videos.vars.prototype})|e("html_attr") }}" 
                     data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0}}">
-
-                    {% for video in form.videos %}
-                        {{ include("trick/_video.html.twig", {form: video}) }}
-                    {% endfor %}
+                    <div class="col-4">
+                        {% for video in form.videos %}
+                            {{ include("trick/_video.html.twig", {form: video}) }}
+                        {% endfor %}
+                    </div>
                 </div>
                 {{ form_errors(form.videos) }}
             </div>

@@ -19,7 +19,7 @@ use Symfony\Component\Uid\Uuid;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use App\Entity\Comment;
 use App\Form\CommentType;
-
+use App\Service\TrickManager;
 
 class TrickController extends AbstractController
 {
@@ -29,50 +29,21 @@ class TrickController extends AbstractController
 
     #[Route('/addTrick', name: 'add_trick')]
     #[IsGranted('ROLE_USER')]
-    public function addTrick(
-        Request $request, 
-        EntityManagerInterface $entityManager, 
-        SluggerInterface $slugger,
-        #[Autowire('%kernel.project_dir%/public/uploads')]
-        string $uploadsDir
-         ): Response
+    public function addTrick(Request $request, TrickManager $trickManager): Response
     {
-        /** @var User $user */
-        $user = $this->getUser();
-        
         $trick = new Trick();
-        $trick->setAuthor($user);
-        $trick->setCreatedAt(new \DateTimeImmutable('now'));
-        $trick->setUpdatedAt(new \DateTimeImmutable('now'));
 
         $form = $this->createForm(TrickType::class, $trick)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()){
-
-            
-            foreach($trick->getPhotos() as $photo) {
-                if($photo->getFile() === null) 
-                {
-                    $trick->removePhoto($photo);
-                    continue;
-                }
-                $photo->setName(Uuid::v4() . "." . $photo->getFile()->guessClientExtension());
-                $photo->getFile()->move($uploadsDir, $photo->getName());
-            }
-            
-            $trick->setSlug($slugger->slug($trick->getName())->lower());
-            
-            $entityManager->persist($trick);
-            $entityManager->flush();
+            $trickManager->add($trick);
             $this->addFlash('success','Vous venez de créé un nouveau trick');
             return $this->redirectToRoute('home');
         }
 
         $trick->getPhotos()->clear();
 
-        return $this->render('trick/addTrickNew.html.twig', [
-            'form' => $form->createView()
-        ]);
+        return $this->render('trick/addTrickNew.html.twig', ['form' => $form]);
     }
 
     #[Route('editTrick/{id}', name: 'edit_trick')]
