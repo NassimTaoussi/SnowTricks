@@ -1,4 +1,4 @@
-main {
+#mainEditTrick {
     background-image: url(../../images/home/unsplash-laptop.jpg);
     background-repeat: no-repeat;
     background-size: 100%;
@@ -31,6 +31,33 @@ main {
       }
 }
 
+.editPhotoFile {
+    width: 20px;
+    padding-bottom: 13px;
+}
+
 .deletePhotoFile {
     width: 20px;
+}
+
+@media (min-width: 320px) and (max-width: 480px) 
+{
+
+  #mainEditTrick {
+    background-image: none;
+    padding: 0px !important;
+  }
+
+  #mediaTricks {
+    display: none !important;
+  }
+
+  #seeMedias {
+    display: block !important;
+  }
+
+  #addMedias {
+    display: none !important;
+  }
+
 }

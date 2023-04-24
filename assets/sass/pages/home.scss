@@ -26,6 +26,7 @@ a #userAvatar {
 
 #arrowUp {
     display: none;
+    text-align: end;
 }
 
 #arrowUpImg {
@@ -81,6 +82,10 @@ Screen = B/w 768px to 1024px
 */
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
     /* CSS */
+    .titleMain h1 {
+        font-size: 40px;
+        text-align: center;
+    }
 }
 
 /*
@@ -88,7 +93,10 @@ Device = Low Resolution Tablets, Mobiles (Landscape)
 Screen = B/w 481px to 767px
 */
 @media (min-width: 481px) and (max-width: 767px) {
-    /* CSS */
+    .titleMain h1 {
+        font-size: 35px;
+        text-align: center;
+    }
 }
 
 /*
@@ -97,5 +105,9 @@ Screen = B/w 320px to 479px
 */
 @media (min-width: 320px) and (max-width: 480px) {
     /* CSS */
+    .titleMain h1 {
+        font-size: 40px;
+        text-align: center;
+    }
 }
   

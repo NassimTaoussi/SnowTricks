@@ -11,11 +11,17 @@ use DateTimeImmutable;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class TricksFixtures extends Fixture implements DependentFixtureInterface
 {
 
     public const TRICK_REFERENCE = '4';
+
+    public function __construct(private SluggerInterface $slugger)
+    {
+        
+    }
 
     public function load(ObjectManager $manager) :void
     {
@@ -35,6 +41,7 @@ class TricksFixtures extends Fixture implements DependentFixtureInterface
                 }
                 $trick->addPhoto($photo);
             }
+            $trick->setSlug($this->slugger->slug($trick->getName())->lower());
             $manager->persist($trick);
         }
 

@@ -7,6 +7,7 @@ use App\Entity\Trick;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,13 +22,14 @@ class TrickType extends AbstractType
                 'attr' => [
                     'class' => 'w-100'
                 ],
-                'label'   => false,
+                'label'   => 'Titre :',
             ])
-            ->add('description', TextType::class, [
+            ->add('description', TextareaType::class, [
                 'attr' => [
-                    'class' => 'w-100'
+                    'class' => 'w-100',
+                    'rows' => '5'
                 ],
-                'label'   => false,
+                'label'   => 'Description :',
             ])
             ->add('category', EntityType::class, [
                 'choice_label' => "name",
@@ -35,7 +37,7 @@ class TrickType extends AbstractType
                 'attr' => [
                     'class' => 'w-25'
                 ],
-                'label'   => false,
+                'label'   => 'Categorie :',
             ])
 
             ->add('photos', CollectionType::class , [

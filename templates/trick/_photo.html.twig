@@ -1,20 +1,22 @@
 
-
-    {# {{ form_row(form.cover) }} #}
-
     {% if form.vars.data is not null and form.vars.data.name is not empty %}
         {# {{ dump(form.vars.data.name) }} #}
         <img src="/uploads/{{form.vars.data.name}}" alt="..." class="img-thumbnail w-100 h-50">
     {% endif %}
 
-    <div class="w-100 d-flex justify-content-end mt-3">
-        <div class="w-75 d-flex justify-content-end border border-secondary">
-            <span id="filePhotoEdit">
-                {{ form_label(form.file, 'E', ) }}
+    <div class="card w-100 d-flex justify-content-center mt-3">
+        <div class="w-100 d-flex justify-content-center">
+            <span class="w-25">
+                {{ form_row(form.cover) }}
+            </span>
+            <span id="filePhotoEdit" class="w-25">
+                <label for="{{ form.file.vars.id }}">
+                <img class="editPhotoFile" src="{{ asset('build/images/icones/edit.svg') }}">
+                </label>
                 {{ form_widget(form.file) }}
             </span>
-            <span id="filePhotoDelete">
-                <img class="deletePhotoFile" src="{{ asset('build/images/icones/delete.svg') }}">
+            <span id="filePhotoDelete" class="btn-remove w-25 text-center">
+                <img class="deletePhotoFile text-center" src="{{ asset('build/images/icones/delete.svg') }}">
             </span>
         </div>
     </div>

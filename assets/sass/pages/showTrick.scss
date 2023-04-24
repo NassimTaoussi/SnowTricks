@@ -1,22 +1,42 @@
-main {
+#mainShowTrick {
     background-image: url(../../images/home/unsplash-laptop.jpg);
     background-repeat: no-repeat;
     background-size: 100%;
 }
 
 #seeMedias {
-  display: none;
+  display: none !important;
 }
 
 @media (min-width: 320px) and (max-width: 480px) 
 {
+
+  #mainShowTrick {
+    background-image: none;
+    padding: 0px !important;
+  }
 
   #mediaTricks {
     display: none !important;
   }
 
   #seeMedias {
-    display: block;
+    display: block !important;
+  }
+
+  .addCommentary {
+    flex-direction: column;
+    margin: 0% !important;
+  }
+
+  .buttonCommentary {
+    width: 100% !important;
+    margin-top: 10px;
+    margin-left: 0% !important;
+  }
+
+  .buttonCommentary button {
+    margin-left: 0% !important;
   }
 
 }

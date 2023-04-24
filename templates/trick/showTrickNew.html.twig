@@ -4,7 +4,7 @@
 
 {% block body %}
 
-<main class="pt-5 min-vh-100">
+<main class="pt-5 min-vh-100" id="mainShowTrick">
     <div class="container bg-white h-100 shadow rounded mb-5">
         <div class="row no-gutters h-100">
         <div class="col-12 position-relative ratio ratio-16x9">
@@ -13,19 +13,54 @@
         </div>
     </div>
 
-    <div id="seeMedias">
-        <button id="buttonMedias" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalMedias">
-            Voir les medias
-        </button>
+    <div id="seeMedias" class="row mt-4">
+        <div class="col d-flex justify-content-center">
+            <button id="buttonMedias" type="button" class="btn btn-primary w-50" data-bs-toggle="modal" data-bs-target="#modalMedias">
+                Voir les medias
+            </button>
+        </div>
+    </div>
 
-        <div class="modal fade" id="modalMedias">
-            <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal fade" id="modalMedias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Medias</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="row d-flex justify-content-center flex-column">
+                        <div class="col-12 d-flex justify-content-center flex-column">
+                            {% for photo in trick.photos %}
+                                <div class="w-100 h-25 mt-1">
+                                    <a class="d-block overlay" data-fslightbox="lightbox-basic" href="{{ asset("uploads/" ~ photo.name ) }}" >
+                                        <img id="imageGallery" src ="{{ asset("uploads/" ~ photo.name ) }}">
+                                    </a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="row d-flex justify-content-center flex-column">
+                        <div class="col-12 d-flex justify-content-center">
+                            {% for video in trick.videos %}
+                                <div class="">
+                                    
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
 
     <div id="mediaTricks" class="row d-flex justify-content-center mt-4">
-        <div class="col-6 d-flex justify-content-start">
+        <div class="col-lg-6 col-md-10 col-sm-12 d-flex justify-content-start">
             {% for photo in trick.photos %}
                 <div class="w-100 h-25">
                     <a class="d-block overlay" data-fslightbox="lightbox-basic" href="{{ asset("uploads/" ~ photo.name ) }}" >
@@ -35,7 +70,7 @@
             {% endfor %}
         </div>
 
-        <div class="col-6 d-flex justify-content-start">
+        <div class="col-lg-6 col-md-10 col-sm-12 d-flex justify-content-start">
             {% for video in trick.videos %}
                 <div class="">
                     
@@ -58,13 +93,13 @@
     </div>
     {% if is_granted("ROLE_USER") %}
     <div class="row border-top border-bottom me-5 ms-5 pt-5 pb-5">
-        <div class="col-12 d-flex justify-content-center">
+        <div class="col-12 d-flex justify-content-center formCommentary">
         {{ form_start(form) }}
-            <div class="form-outline mb-4 me-4 d-flex justify-content-center">
+            <div class="form-outline mb-4 me-4 d-flex justify-content-center addCommentary">
                 <div class="w-100">
                     {{ form_widget(form.message, {'attr': {'class': 'form-control text-center'}}) }}
                 </div>
-                <div class="w-50">
+                <div class="w-50 buttonCommentary">
                     <button type="submit" class="btn btn-primary ms-4 w-100">Laisser un commentaire</button>
                 </div>
             </div>
@@ -74,8 +109,8 @@
     </div>
     {% endif %}
     <div class="row mb-4">
-        <section id="allComments" class="row mt-5 d-flex justify-content-center">
-            <div class="col-8 col-lg-6 col-md-8 col-sm-10">
+        <section id="allComments" class="row mt-5 d-flex justify-content-center p-0 m-0">
+            <div class="col-lg-8 col-md-10 col-sm-12 d-flex flex-column justify-content-center">
                 {{ include ('comment/elements.html.twig') }}
             </div>
         </section>

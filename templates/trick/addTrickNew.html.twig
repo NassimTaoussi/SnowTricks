@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Création d'un trick{% endblock %}
+
+{% block body %}
+
+<main class="pt-5 min-vh-100">
+    <div class="container bg-white h-100 shadow rounded mb-5">
+        {{ form_start(form) }}
+        {{ form_errors(form) }}
+        <div class="row d-flex justify-content-center pt-5">
+            <div class="col-6">
+                {{ form_row(form.name) }}
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-center mt-4">
+            <div class="col-6">
+                {{ form_row(form.description) }}
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-center mt-4">
+            <div class="col-6">
+                {{ form_row(form.category) }}
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-new" data-collection="#photos">Nouvelle photo</button>
+        <div 
+            id="photos"
+            class="row"
+            data-prototype="{{ include("trick/_photo.html.twig", {form: form.photos.vars.prototype})|e("html_attr") }}" 
+            data-index="{{ form.photos|length > 0 ? form.photos|last.vars.name + 1 : 0}}">
+                {% for photo in form.photos %}
+                    <div class="col-4">
+                        {{ include("trick/_photo.html.twig", {form: photo}) }}
+                    </div>
+                {% endfor %}
+        </div>
+        {{ form_errors(form.photos) }}
+
+        <button type="button" class="btn btn-primary btn-new" data-collection="#videos">Nouvelle video</button>
+        <div 
+            id="videos" 
+            class="row"
+            data-prototype="{{ include("trick/_video.html.twig", {form: form.videos.vars.prototype})|e("html_attr") }}" 
+            data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0}}">
+            <div class="d-flex justify-content-center">
+            {% for video in form.videos %}
+                <div class="col-4">
+                    {{ include("trick/_video.html.twig", {form: video}) }}
+                </div>
+            {% endfor %}
+            </div>
+        </div>
+        {{ form_errors(form.videos) }}
+
+        <div class="row d-flex justify-content-center mt-2 mb-5">
+            <div class="col-6 mb-5 d-flex justify-content-center">
+                <button class="btn btn-primary">Valider</button>
+            </div>
+        </div>
+        {{ form_end(form, {render_rest: false}) }}
+    </div>
+</main>
+
+{% endblock %}

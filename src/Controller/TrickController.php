@@ -60,6 +60,7 @@ class TrickController extends AbstractController
                 $photo->getFile()->move($uploadsDir, $photo->getName());
             }
             
+            $trick->setSlug($slugger->slug($trick->getName())->lower());
             
             $entityManager->persist($trick);
             $entityManager->flush();
@@ -69,7 +70,7 @@ class TrickController extends AbstractController
 
         $trick->getPhotos()->clear();
 
-        return $this->render('trick/addTrick.html.twig', [
+        return $this->render('trick/addTrickNew.html.twig', [
             'form' => $form->createView()
         ]);
     }
@@ -87,7 +88,7 @@ class TrickController extends AbstractController
         $form = $this->createForm(TrickType::class, $trick);
 
         $form->handleRequest($request);
-        dump($trick->getPhotos());
+
         if ($form->isSubmitted() && $form->isValid())
         {
             foreach($trick->getPhotos() as $photo) {
@@ -103,6 +104,18 @@ class TrickController extends AbstractController
                 
                 
             }
+
+            foreach($trick->getVideos() as $video) {
+                if($video->getLink() === null) 
+                {
+                    $trick->removeVideo($video);
+                    continue;
+                }
+                $video->setTrick($trick);
+                $entityManager->persist($video);
+            }
+
+            $trick->setSlug($slugger->slug($trick->getName())->lower());
 
             $entityManager->flush();
             $this->addFlash('success','Vous venez de mettre à jour ce trick');
@@ -123,7 +136,7 @@ class TrickController extends AbstractController
         $this->addFlash('success', 'Le trick a bien été supprimer.');
     }
 
-    #[Route('trick/{id}', name:'show_trick')]
+    #[Route('trick/{slug}', name:'show_trick')]
     public function showTrick(Trick $trick, CommentRepository $commentRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
         dump($trick);
@@ -136,11 +149,11 @@ class TrickController extends AbstractController
 
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment)->handleRequest($request);
+        
 
         if ($form->isSubmitted() && $form->isValid())
         {
             $comment->setAuthor($user);
-            $comment->setMessage($form->get('message')->getData());
             $comment->setCreatedAt(new \DateTimeImmutable('now'));
             $comment->setTrick($trick);
 
