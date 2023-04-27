@@ -47,9 +47,7 @@
                     <div class="row d-flex justify-content-center flex-column">
                         <div class="col-12 d-flex justify-content-center">
                             {% for video in trick.videos %}
-                                <div class="">
-                                    
-                                </div>
+                            
                             {% endfor %}
                         </div>
                     </div>
@@ -72,8 +70,15 @@
 
         <div class="col-lg-6 col-md-10 col-sm-12 d-flex justify-content-start">
             {% for video in trick.videos %}
-                <div class="">
-                    
+                <div class="w-100 h-25">
+                    <a data-fslightbox="gallery" href="{{ video.link }}">
+                        <iframe
+                            src="https://www.youtube.com/embed/{{ video.link }}"
+                            title="YouTube video player"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </a>
                 </div>
             {% endfor %}
         </div>

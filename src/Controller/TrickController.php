@@ -43,6 +43,8 @@ class TrickController extends AbstractController
 
         $trick->getPhotos()->clear();
 
+        
+
         return $this->render('trick/addTrickNew.html.twig', ['form' => $form]);
     }
 
@@ -77,11 +79,15 @@ class TrickController extends AbstractController
             }
 
             foreach($trick->getVideos() as $video) {
+                
                 if($video->getLink() === null) 
                 {
                     $trick->removeVideo($video);
                     continue;
                 }
+                $url = $video->getLink();
+                parse_str( parse_url( $url, PHP_URL_QUERY ), $urlId );            
+                $video->setLink($urlId['v']);
                 $video->setTrick($trick);
                 $entityManager->persist($video);
             }

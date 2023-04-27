@@ -23,11 +23,15 @@
                 </div>
             {% endfor %}
         </div>
-
+        
         <div class="col-6 d-flex justify-content-start">
             {% for video in trick.videos %}
-                <div class="">
-                    
+                {{ dump(video.link) }}
+                <div class="w-100 h-25">
+                    <embed type="video/webm"
+                        src="{{ video.link }}"
+                        width="250"
+                        height="200">
                 </div>
             {% endfor %}
         </div>
