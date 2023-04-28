@@ -50,7 +50,8 @@ class TrickController extends AbstractController
 
     #[Route('editTrick/{id}', name: 'edit_trick')]
     public function editTrick(
-        Trick $trick, 
+        Trick $trick,
+        TrickManager $trickManager, 
         Request $request, 
         EntityManagerInterface $entityManager,
         SluggerInterface $slugger,
@@ -64,37 +65,22 @@ class TrickController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            foreach($trick->getPhotos() as $photo) {
-                if($photo->getFile() === null && $photo->getId() === null)
-                {
-                    $trick->removePhoto($photo);
-                    continue;
-                }
-                if($photo->getFile() != null) {
-                    $photo->setName(Uuid::v4() . "." . $photo->getFile()->guessClientExtension());
-                    $photo->getFile()->move($uploadsDir, $photo->getName());
-                }
-                
-                
+            $trickManager->update($trick);
+
+            foreach($trick->getVideos() as $video) 
+        {
+            if($video->getLink() === null) 
+            {
+                $trick->removeVideo($video);
+                continue;
             }
+            $url = $video->getLink();
+            parse_str( parse_url( $url, PHP_URL_QUERY ), $urlId );            
+            $video->setLink($urlId['v']);
+            $video->setTrick($trick);
+            $entityManager->persist($video);
+        }
 
-            foreach($trick->getVideos() as $video) {
-                
-                if($video->getLink() === null) 
-                {
-                    $trick->removeVideo($video);
-                    continue;
-                }
-                $url = $video->getLink();
-                parse_str( parse_url( $url, PHP_URL_QUERY ), $urlId );            
-                $video->setLink($urlId['v']);
-                $video->setTrick($trick);
-                $entityManager->persist($video);
-            }
-
-            $trick->setSlug($slugger->slug($trick->getName())->lower());
-
-            $entityManager->flush();
             $this->addFlash('success','Vous venez de mettre à jour ce trick');
             return $this->redirectToRoute('home');
         }

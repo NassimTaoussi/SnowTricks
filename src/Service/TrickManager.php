@@ -43,4 +43,29 @@ final class TrickManager
         $this->entityManager->persist($trick);
         $this->entityManager->flush();
     }
+
+    public function update(Trick $trick): void
+    {
+        $user = $this->security->getUser();
+
+        foreach($trick->getPhotos() as $photo) 
+        {
+            if($photo->getFile() === null && $photo->getId() === null)
+            {
+                $trick->removePhoto($photo);
+                continue;
+            }
+            if($photo->getFile() != null) {
+                $photo->setName(Uuid::v4() . "." . $photo->getFile()->guessClientExtension());
+                $photo->getFile()->move($this->uploadsDir, $photo->getName());
+            }
+            
+        }
+
+        
+            
+        $trick->setSlug($this->slugger->slug($trick->getName())->lower());
+
+        $this->entityManager->flush();
+    }
 }

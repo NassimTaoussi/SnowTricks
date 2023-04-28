@@ -15,49 +15,13 @@
 
     <div id="seeMedias" class="row mt-4">
         <div class="col d-flex justify-content-center">
-            <button id="buttonMedias" type="button" class="btn btn-primary w-50" data-bs-toggle="modal" data-bs-target="#modalMedias">
+            <a class="btn btn-primary" id="buttonMedias" data-bs-toggle="collapse" href="#mediaTricks" role="button" aria-expanded="false" aria-controls="mediaTricks">
                 Voir les medias
-            </button>
+            </a>
         </div>
     </div>
 
-    <div class="modal fade" id="modalMedias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Medias</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <div class="row d-flex justify-content-center flex-column">
-                        <div class="col-12 d-flex justify-content-center flex-column">
-                            {% for photo in trick.photos %}
-                                <div class="w-100 h-25 mt-1">
-                                    <a class="d-block overlay" data-fslightbox="lightbox-basic" href="{{ asset("uploads/" ~ photo.name ) }}" >
-                                        <img id="imageGallery" src ="{{ asset("uploads/" ~ photo.name ) }}">
-                                    </a>
-                                </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="row d-flex justify-content-center flex-column">
-                        <div class="col-12 d-flex justify-content-center">
-                            {% for video in trick.videos %}
-                            
-                            {% endfor %}
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-
-    <div id="mediaTricks" class="row d-flex justify-content-center mt-4">
+    <div id="mediaTricks" class="collapse show row d-flex justify-content-center mt-4">
         <div class="col-lg-6 col-md-10 col-sm-12 d-flex justify-content-start">
             {% for photo in trick.photos %}
                 <div class="w-100 h-25">
