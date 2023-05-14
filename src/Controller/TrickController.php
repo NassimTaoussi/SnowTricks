@@ -53,11 +53,7 @@ class TrickController extends AbstractController
         Trick $trick,
         TrickManager $trickManager, 
         Request $request, 
-        EntityManagerInterface $entityManager,
-        SluggerInterface $slugger,
-        #[Autowire('%kernel.project_dir%/public/uploads')]
-        string $uploadsDir
-        ) : Response {
+    ) : Response {
 
         $form = $this->createForm(TrickType::class, $trick);
 
@@ -66,20 +62,6 @@ class TrickController extends AbstractController
         if ($form->isSubmitted() && $form->isValid())
         {
             $trickManager->update($trick);
-
-            foreach($trick->getVideos() as $video) 
-        {
-            if($video->getLink() === null) 
-            {
-                $trick->removeVideo($video);
-                continue;
-            }
-            $url = $video->getLink();
-            parse_str( parse_url( $url, PHP_URL_QUERY ), $urlId );            
-            $video->setLink($urlId['v']);
-            $video->setTrick($trick);
-            $entityManager->persist($video);
-        }
 
             $this->addFlash('success','Vous venez de mettre à jour ce trick');
             return $this->redirectToRoute('home');

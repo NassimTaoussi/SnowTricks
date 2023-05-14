@@ -24,3 +24,7 @@ if (inputFile != null) {
         }
     });
 }
+
+function showDiv() {
+    document.getElementById('mediaTricksForSmallScreen').style.display = "block";
+}

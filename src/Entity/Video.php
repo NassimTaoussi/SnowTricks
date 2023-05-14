@@ -48,4 +48,18 @@ class Video
 
         return $this;
     }
+
+    public function getVideoId(): string
+    {
+        $url = $this->getLink();
+
+        //$url = 'https://www.youtube.com/watch?v=IPaJyOkQ5K0';
+        // https://www.youtube.com/embed/IPaJyOkQ5K0
+
+        $link = preg_match('/^https:\/\/www.youtube.com\/watch\?v=(?<id>[a-zA-Z0-9-_]+)/', $url, $matches);
+
+        var_dump($matches['id']);
+
+        return $link;
+    }
 }
