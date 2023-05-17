@@ -1,8 +1,4 @@
-console.log("Ici comment.js");
-
 const loadMoreButton = document.getElementById("loadMoreComments");
-
-console.log(loadMoreButton);
 
 /*let page = 1;
 

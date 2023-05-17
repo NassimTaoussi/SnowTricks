@@ -1,6 +1,5 @@
 import './sass/app.scss';
 import 'bootstrap';
-import '@fortawesome/fontawesome-free';
 import 'fslightbox';
 import './js/pages/home.js';
 import './js/pages/comment.js';
@@ -24,8 +23,4 @@ if (inputFile != null) {
             reader.readAsDataURL(images[0]);
         }
     });
-}
-
-function showDiv() {
-    document.getElementById('mediaTricksForSmallScreen').style.display = "block";
 }
