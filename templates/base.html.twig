@@ -28,6 +28,7 @@
                         {% endif %}
                         {% if is_granted("ROLE_USER") %}
                             <a href="{{ path('add_trick')}}" class="nav-item nav-link text-white">Crée un trick</a>
+                            <a href="{{ path('app_logout')}}" class="nav-item nav-link text-white">Deconnexion</a>
                             <a class="nav-item nav-link text-white" href="{{ path('editAvatar')}}">
                             <img 
                                 id="userAvatar" 
