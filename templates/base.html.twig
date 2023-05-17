@@ -4,7 +4,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
         <title>{% block title %}Bienvenue !{% endblock %}</title>
-        
+        <link href="/your-path-to-fontawesome/css/fontawesome.css" rel="stylesheet">
+        <link href="/your-path-to-fontawesome/css/brands.css" rel="stylesheet">
+        <link href="/your-path-to-fontawesome/css/solid.css" rel="stylesheet">
         {% block stylesheets %}
             {{ encore_entry_link_tags('app') }}
         {% endblock %}
@@ -13,18 +15,29 @@
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-dark">
             <a class="navbar-brand text-white" href="{{ path('home')}}">SnowTricks</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link text-white" href="{{ path('home')}}">Accueil</a>
-                    <a class="nav-item nav-link text-white" href="#">Tricks</a>
-                    <a class="nav-item nav-link text-white" href="{{ path('app_register')}}">Inscription</a>
-                    <a class="nav-item nav-link text-white" href="{{ path('app_login')}}">Connexion</a>
-                    {% if is_granted("ROLE_USER") %}
-                    <a class="nav-item nav-link text-white" href="{{ path('editAvatar')}}"><img id="userAvatar" class="img-rounded" src="{{ (app.user.avatar is null) ? asset('build/images/icones/user.svg') : asset('uploads/' ~ app.user.avatar) }}"></a>
-                    {% endif %}
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="w-100 d-flex justify-content-end pe-2">
+                    <div class="navbar-nav">
+                        <a class="nav-item nav-link text-white" href="{{ path('home')}}">Accueil</a>
+                        {% if not is_granted('ROLE_USER') %}
+                            <a class="nav-item nav-link text-white" href="{{ path('app_register')}}">Inscription</a>
+                            <a class="nav-item nav-link text-white" href="{{ path('app_login')}}">Connexion</a>
+                        {% endif %}
+                        {% if is_granted("ROLE_USER") %}
+                            <a href="{{ path('add_trick')}}" class="nav-item nav-link text-white">Crée un trick</a>
+                            <a class="nav-item nav-link text-white" href="{{ path('editAvatar')}}">
+                            <img 
+                                id="userAvatar" 
+                                class="rounded-circle"
+                                height="30"
+                                alt="Black and White Portrait of a Man"
+                                loading="lazy" src="{{ (app.user.avatar is null) ? asset('build/images/icones/user.svg') : asset('uploads/' ~ app.user.avatar) }}">
+                            </a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </nav>

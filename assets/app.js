@@ -1,5 +1,6 @@
 import './sass/app.scss';
 import 'bootstrap';
+import '@fortawesome/fontawesome-free';
 import 'fslightbox';
 import './js/pages/home.js';
 import './js/pages/comment.js';

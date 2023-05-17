@@ -35,12 +35,9 @@
             <div class="d-flex w-50 h-100 flex-wrap justify-content-center">
             {% for video in trick.videos %}
                     <div class="me-2">
+                    {{ dump(video.getVideoId()) }}
                         <a data-fslightbox="gallery" href="{{ video.link }}">
-                            <iframe
-                                src="https://www.youtube.com/embed/{{ video.getVideoId() }}"
-                                title="YouTube video player"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen>
+                            <iframe src="https://www.youtube.com/embed/{{ video.getVideoId() }}">
                             </iframe>
                         </a>
                     </div>
