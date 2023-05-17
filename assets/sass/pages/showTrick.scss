@@ -28,14 +28,14 @@
   }
 
   #mediaTricksForSmallScreen {
-    display: none !important;
+    display: block !important;
   }
 }
 
 @media (min-width: 320px) and (max-width: 480px) 
 {
   #mediaTricksForSmallScreen {
-    display: none !important;
+    display: block !important;
   }
 
   #mainShowTrick {

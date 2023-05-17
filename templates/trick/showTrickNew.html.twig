@@ -15,9 +15,9 @@
 
     <div id="seeMedias" class="row mt-4">
         <div class="col d-flex justify-content-center">
-            <a class="btn btn-primary" id="buttonMedias" data-bs-toggle="collapse" href="#mediaTricksForSmallScreen" role="button" aria-expanded="false" aria-controls="mediaTricksForSmallScreen">
+            <button id="buttonMedias" class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#mediaTricksForSmallScreen" aria-expanded="false" aria-controls="mediaTricksForSmallScreen">
                 Voir les medias
-            </a>
+            </button>
         </div>
     </div>
 
@@ -45,7 +45,7 @@
             </div>
     </div>
 
-    <div id="mediaTricksForSmallScreen" class="collapse multi-collapse d-flex w-100 mt-4">
+    <div id="mediaTricksForSmallScreen" class="collapse w-100 mt-4">
             <div class="d-flex w-100 h-100 flex-wrap justify-content-center">
             {% for photo in trick.photos %}
                     <div class="mt-1">
@@ -78,7 +78,7 @@
                 <p class="text-start">{{trick.description}}</p>
             </div>
         </div>
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center text-center">
             <p class="me-3"><small class="text-muted">{{trick.category.name}}</small></p>
             <p class="me-3"><small class="text-muted">Crée le {{trick.updatedAt|date('d/m/Y')}}</small></p>
             <p class="me-3"><small class="text-muted">Crée par {{trick.author}}</small></p>

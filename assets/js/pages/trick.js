@@ -4,6 +4,7 @@ const newItem = (e) => {
     const item = document.createElement("div");
 
     item.classList.add("col-4");
+    item.classList.add("mt-2");
 
     item.innerHTML = collectionHolder
     .dataset

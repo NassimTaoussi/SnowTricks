@@ -2,7 +2,7 @@ console.log("Ici comment.js");
 
 const loadMoreButton = document.getElementById("loadMoreComments");
 
-
+console.log(loadMoreButton);
 
 /*let page = 1;
 
@@ -15,7 +15,7 @@ document.querySelector('#loadMoreComments').addEventListener('click', (e) => {
 
 if (loadMoreButton)
 {
-    addEventListener("click", async (event) => {
+    document.getElementById("loadMoreComments").addEventListener("click", async (event) => {
         let totalDisplayComments = Number(document.getElementById('totalDisplayComments').value);
         let totalAllComments = Number(document.getElementById('totalAllComments').value);
         let commentsPerLoading = Number(document.getElementById('commentsPerLoading').value);
