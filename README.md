@@ -15,7 +15,7 @@ git clone https://gitlab.com/NassimTaoussi/SnowTricks.git
 symfony composer install
 ``
 
-3. Puis nstallez les dépendances du projet coté front-end avec :
+3. Puis installez les dépendances du projet coté front-end avec :
 ``
 npm install
 ``
