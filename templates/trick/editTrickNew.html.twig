@@ -21,14 +21,6 @@
 
             {{ form_errors(form) }}
 
-        <div id="seeEditMedias" class="row mt-4">
-            <div class="col d-flex justify-content-center">
-                <button id="buttonEditMedias" type="button" class="btn btn-primary w-50" data-bs-toggle="modal" data-bs-target="#modalMedias">
-                    Voir les medias
-                </button>
-            </div>
-        </div>
-
         <div class="d-flex w-100 mt-4" id="mediaEditTrick" >
             <div id="photosEdit" class="d-flex w-50 h-100 me-2 flex-wrap justify-content-center">
                 <div 
@@ -38,7 +30,7 @@
                     data-index="{{ form.photos|length > 0 ? form.photos|last.vars.name + 1 : 0}}">
 
                     {% for photo in form.photos %}
-                        <div class="col-4">
+                        <div id="imageInput" class="col-4 mt-3">
                             {{ include("trick/_photo.html.twig", {form: photo}) }}
                         </div>
                     {% endfor %}
@@ -54,7 +46,7 @@
                     data-prototype="{{ include("trick/_video.html.twig", {form: form.videos.vars.prototype})|e("html_attr") }}" 
                     data-index="{{ form.videos|length > 0 ? form.videos|last.vars.name + 1 : 0}}">
                     {% for video in form.videos %}
-                        <div class="col-4">
+                        <div id="urlVideoInput" class="col-4 mt-3">
                             {{ include("trick/_video.html.twig", {form: video}) }}
                         </div>
                     {% endfor %}

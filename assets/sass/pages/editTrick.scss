@@ -40,6 +40,29 @@
     width: 20px;
 }
 
+@media (min-width: 481px) and (max-width: 767px) {
+  #photos {
+    flex-direction: column;
+  }
+  
+  #videos {
+    flex-direction: column;
+  }
+
+  #urlVideoInput {
+    width: 100% !important;
+  }
+
+  #imageInput {
+    width: 100% !important;
+  }
+
+  .newItemMedia {
+    width: 100% !important;
+  }
+
+}
+
 @media (min-width: 320px) and (max-width: 480px) 
 {
 
@@ -48,16 +71,28 @@
     padding: 0px !important;
   }
 
-  #mediaEditTrick {
-    display: none !important;
+  /* #mediaEditTrick {
+    flex-direction: column;
+  } */
+
+  #photos {
+    flex-direction: column;
+  }
+  
+  #videos {
+    flex-direction: column;
   }
 
-  #seeEditMedias {
-    display: block !important;
+  #urlVideoInput {
+    width: 100% !important;
   }
 
-  #addMedias {
-    display: none !important;
+  #imageInput {
+    width: 100% !important;
+  }
+
+  .newItemMedia {
+    width: 100% !important;
   }
 
 }

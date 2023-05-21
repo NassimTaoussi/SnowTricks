@@ -4,7 +4,8 @@ const newItem = (e) => {
     const item = document.createElement("div");
 
     item.classList.add("col-4");
-    item.classList.add("mt-2");
+    item.classList.add("mt-3");
+    item.classList.add("newItemMedia");
 
     item.innerHTML = collectionHolder
     .dataset
