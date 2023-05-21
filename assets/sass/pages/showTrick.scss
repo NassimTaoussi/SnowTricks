@@ -15,6 +15,19 @@
 }
 
 @media (min-width: 481px) and (max-width: 767px) {
+  #mediaTricks {
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .mediasImages {
+    width: 100% !important;
+  }
+
+  .mediasVideos {
+    width: 100% !important;
+    margin-top: 10px !important;
+  }
 }
 
 @media (min-width: 320px) and (max-width: 480px) 
@@ -22,6 +35,20 @@
   #mainShowTrick {
     background-image: none;
     padding: 0px !important;
+  }
+
+  #mediaTricks {
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .mediasImages {
+    width: 100% !important;
+  }
+
+  .mediasVideos {
+    width: 100% !important;
+    margin-top: 10px !important;
   }
 
   .addCommentary {
