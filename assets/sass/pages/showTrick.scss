@@ -14,41 +14,14 @@
   margin-right: 10px;
 }
 
-#mediaTricksForSmallScreen {
-  display: none !important;
-}
-
 @media (min-width: 481px) and (max-width: 767px) {
-  #seeMedias {
-    display: block !important;
-  }
-
-  #mediaTricks {
-    display: none !important;
-  }
-
-  #mediaTricksForSmallScreen {
-    display: block !important;
-  }
 }
 
 @media (min-width: 320px) and (max-width: 480px) 
 {
-  #mediaTricksForSmallScreen {
-    display: block !important;
-  }
-
   #mainShowTrick {
     background-image: none;
     padding: 0px !important;
-  }
-
-  #mediaTricks {
-    display: none !important;
-  }
-
-  #seeMedias {
-    display: block !important;
   }
 
   .addCommentary {

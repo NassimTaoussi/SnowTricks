@@ -55,7 +55,6 @@ class Video
 
         preg_match('/^https:\/\/www.youtube.com\/watch\?v=(?<id>[a-zA-Z0-9-_]+)/', $url, $matches);
 
-        var_dump($matches['id']);
         $embed = $matches['id'];
 
         return $embed;
