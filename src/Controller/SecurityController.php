@@ -42,13 +42,11 @@ class SecurityController extends AbstractController
     {
         $form = $this->createForm(ResetPasswordRequestFormType::class)->handleRequest($request);
 
-
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $user = $usersRepository->findOneByEmail($form->get('email')->getData());
 
-            if($user){
-                if($user->isVerified() == true )
-                {
+            if ($user) {
+                if (true == $user->isVerified()) {
                     $token = Uuid::v4();
                     $user->setValidationToken($token);
                     $entityManager->persist($user);
@@ -56,8 +54,9 @@ class SecurityController extends AbstractController
 
                     $url = $this->generateUrl('reset_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
 
-
-                    $emailVerifier->sendEmailConfirmation('app_reset_pass', $user,
+                    $emailVerifier->sendEmailConfirmation(
+                        'app_reset_pass',
+                        $user,
                         (new TemplatedEmail())
                             ->from(new Address('nassim-taoussi@hotmail.com', 'SnowTricks'))
                             ->to($user->getEmail())
@@ -68,31 +67,28 @@ class SecurityController extends AbstractController
                                 'user' => $user,
                             ])
                     );
-
                 }
-                
             }
             $this->addFlash('success', 'Email envoyé avec succès');
+
             return $this->redirectToRoute('app_login');
         }
 
         return $this->render('security/reset_password_request.html.twig', [
-            'requestPassForm' => $form->createView()
+            'requestPassForm' => $form->createView(),
         ]);
     }
 
-    #[Route('/reset-password/{validationToken}', name:'reset_password')]
+    #[Route('/reset-password/{validationToken}', name: 'reset_password')]
     public function resetPassword(
         Request $request,
         User $user,
         EntityManagerInterface $entityManager,
         UserPasswordHasherInterface $passwordHasher
-    ): Response
-    {
+    ): Response {
         $form = $this->createForm(ResetPasswordFormType::class)->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()) {
             $user->setValidationToken(null);
             $user->setPassword(
                 $passwordHasher->hashPassword(
@@ -103,11 +99,12 @@ class SecurityController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
             $this->addFlash('success', 'Mot de passe changé avec succès');
+
             return $this->redirectToRoute('app_login');
         }
 
         return $this->render('security/reset_password.html.twig', [
-            'passForm' => $form->createView()
+            'passForm' => $form->createView(),
         ]);
     }
 

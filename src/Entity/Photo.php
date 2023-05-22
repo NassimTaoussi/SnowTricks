@@ -3,11 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\PhotoRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 #[ORM\Entity(repositoryClass: PhotoRepository::class)]
 class Photo
@@ -19,7 +17,7 @@ class Photo
 
     #[Assert\File(
         maxSize: '5M',
-        mimeTypes: ['image/jpeg','image/jpg','image/png'],
+        mimeTypes: ['image/jpeg', 'image/jpg', 'image/png'],
         maxSizeMessage: 'Taille du fichier limité à 5M',
         mimeTypesMessage: 'Veuillez selectionner un format valide (jpeg, jpg, png)'
     )]
@@ -33,8 +31,7 @@ class Photo
     private bool $cover = false;
 
     #[ORM\Column(length: 255)]
-    private string $name = "";
-
+    private string $name = '';
 
     public function getId(): ?int
     {
@@ -88,6 +85,4 @@ class Photo
 
         return $this;
     }
-
-    
 }

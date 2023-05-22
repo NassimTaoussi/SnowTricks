@@ -4,10 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
-use App\Repository\UserRepository;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
-use Exception;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +16,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class RegistrationController extends AbstractController
 {
-
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, EmailVerifier $emailVerifier): Response
     {
@@ -26,7 +23,7 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(RegistrationFormType::class, $user)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //$user->setUsername($form->get('username')->getData());
+            // $user->setUsername($form->get('username')->getData());
 
             // encode the plain password
             $user->setPassword(
@@ -39,9 +36,10 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-
             // generate a signed url and email it to the user
-            $emailVerifier->sendEmailConfirmation('app_verify_email', $user,
+            $emailVerifier->sendEmailConfirmation(
+                'app_verify_email',
+                $user,
                 (new TemplatedEmail())
                     ->from(new Address('nassim-taoussi@hotmail.com', 'SnowTricks'))
                     ->to($user->getEmail())

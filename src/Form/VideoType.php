@@ -16,7 +16,7 @@ class VideoType extends AbstractType
             ->add('link', TextType::class, [
                 'label' => 'Video',
                 'attr' => [
-                    'class' => 'w-100'
+                    'class' => 'w-100',
                 ],
             ])
         ;

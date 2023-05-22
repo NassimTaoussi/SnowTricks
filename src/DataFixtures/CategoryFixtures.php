@@ -5,13 +5,12 @@ namespace App\DataFixtures;
 use App\Entity\Category;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\Validator\Constraints\Length;
 
-class CategoryFixtures extends Fixture 
+class CategoryFixtures extends Fixture
 {
     public const CATEGORY_REFERENCE = 'Flip';
 
-    public function load(ObjectManager $manager) :void
+    public function load(ObjectManager $manager): void
     {
         $category = new Category();
         $category->setName('Flip');

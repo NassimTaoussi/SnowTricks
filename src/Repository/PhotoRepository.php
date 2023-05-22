@@ -39,7 +39,8 @@ class PhotoRepository extends ServiceEntityRepository
         }
     }
 
-    public function updateCover($photo) {
+    public function updateCover($photo)
+    {
         $this->createQueryBuilder('p')
         ->update('photos', 'p')
         ->set('p.cover', false)
@@ -47,7 +48,7 @@ class PhotoRepository extends ServiceEntityRepository
         ->andWhere('p.id NOT IN (:id)')
         ->setParameters([
             'id' => $photo->getId(),
-            "trick" => $photo->getTrick(),
+            'trick' => $photo->getTrick(),
         ])
 
         ->getQuery()

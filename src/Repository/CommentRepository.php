@@ -21,9 +21,10 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
-    public function countAllComments($trick) {
+    public function countAllComments($trick)
+    {
         return $this->createQueryBuilder('c')
-        ->select("COUNT(c.id)")
+        ->select('COUNT(c.id)')
         ->where('c.trick = :trickId ')
         ->setParameter('trickId', $trick->getId())
         ->getQuery()
@@ -38,7 +39,8 @@ class CommentRepository extends ServiceEntityRepository
             ->setParameter('trickId', $trick->getId())
             ->setFirstResult(0)
             ->setMaxResults($commentsForStarting)
-            ;
+        ;
+
         return $query->getQuery()->getResult();
     }
 
@@ -50,7 +52,8 @@ class CommentRepository extends ServiceEntityRepository
             ->setParameter('trickId', $trick->getId())
             ->setFirstResult($commentsAlreadyLoaded)
             ->setMaxResults($commentsPerLoading)
-            ;
+        ;
+
         return $query->getQuery()->getResult();
     }
 

@@ -45,7 +45,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->tricks = new ArrayCollection();
     }
 
-    public function __toString() {
+    public function __toString()
+    {
         return $this->username;
     }
 
@@ -162,7 +163,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getUserIdentifier(): string {
+    public function getUserIdentifier(): string
+    {
         return (string) $this->email;
     }
 
@@ -171,12 +173,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return null;
     }
 
-    public function getRoles(): array {
-        return ["ROLE_USER"];
+    public function getRoles(): array
+    {
+        return ['ROLE_USER'];
     }
 
-    public function eraseCredentials() {
-
+    public function eraseCredentials()
+    {
     }
 
     public function isVerified(): bool

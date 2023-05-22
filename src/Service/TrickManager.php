@@ -11,14 +11,13 @@ use Symfony\Bundle\SecurityBundle\Security;
 
 final class TrickManager
 {
-    public function __construct( 
+    public function __construct(
         private Security $security,
-        private EntityManagerInterface $entityManager, 
+        private EntityManagerInterface $entityManager,
         private SluggerInterface $slugger,
         #[Autowire('%kernel.project_dir%/public/uploads')]
         private string $uploadsDir
     ) {
-
     }
 
     public function add(Trick $trick): void
@@ -28,18 +27,17 @@ final class TrickManager
         $trick->setCreatedAt(new \DateTimeImmutable('now'));
         $trick->setUpdatedAt(new \DateTimeImmutable('now'));
 
-        foreach($trick->getPhotos() as $photo) {
-            if($photo->getFile() === null) 
-            {
+        foreach ($trick->getPhotos() as $photo) {
+            if (null === $photo->getFile()) {
                 $trick->removePhoto($photo);
                 continue;
             }
-            $photo->setName(Uuid::v4() . "." . $photo->getFile()->guessClientExtension());
+            $photo->setName(Uuid::v4().'.'.$photo->getFile()->guessClientExtension());
             $photo->getFile()->move($this->uploadsDir, $photo->getName());
         }
-        
+
         $trick->setSlug($this->slugger->slug($trick->getName())->lower());
-        
+
         $this->entityManager->persist($trick);
         $this->entityManager->flush();
     }
@@ -48,22 +46,17 @@ final class TrickManager
     {
         $user = $this->security->getUser();
 
-        foreach($trick->getPhotos() as $photo) 
-        {
-            if($photo->getFile() === null && $photo->getId() === null)
-            {
+        foreach ($trick->getPhotos() as $photo) {
+            if (null === $photo->getFile() && null === $photo->getId()) {
                 $trick->removePhoto($photo);
                 continue;
             }
-            if($photo->getFile() != null) {
-                $photo->setName(Uuid::v4() . "." . $photo->getFile()->guessClientExtension());
+            if (null != $photo->getFile()) {
+                $photo->setName(Uuid::v4().'.'.$photo->getFile()->guessClientExtension());
                 $photo->getFile()->move($this->uploadsDir, $photo->getName());
             }
-            
         }
 
-        
-            
         $trick->setSlug($this->slugger->slug($trick->getName())->lower());
 
         $this->entityManager->flush();

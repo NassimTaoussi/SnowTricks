@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Validator\CoverFile;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
@@ -40,12 +39,12 @@ class Trick
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Photo::class, orphanRemoval: true, cascade: ["persist"])]
-    #[Assert\Count(min:1)]
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Photo::class, orphanRemoval: true, cascade: ['persist'])]
+    #[Assert\Count(min: 1)]
     #[Assert\Valid]
     private Collection $photos;
 
-    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Video::class, orphanRemoval: true, cascade: ["persist"])]
+    #[ORM\OneToMany(mappedBy: 'trick', targetEntity: Video::class, orphanRemoval: true, cascade: ['persist'])]
     #[Assert\Valid]
     private Collection $videos;
 
@@ -231,26 +230,24 @@ class Trick
 
     public function getCover(): null|Photo
     {
-        foreach($this->photos as $photo) 
-        {
-            if($photo->isCover()) 
-            {
+        foreach ($this->photos as $photo) {
+            if ($photo->isCover()) {
                 return $photo;
             }
         }
+
         return null;
     }
 
     #[Assert\Callback]
-    public function validateCover(ExecutionContextInterface $context, $payload,)
+    public function validateCover(ExecutionContextInterface $context, $payload)
     {
         $covers = $this->photos->filter(fn (Photo $photo) => $photo->isCover())->count();
 
-        if($covers != 1) {
+        if (1 != $covers) {
             $context->buildViolation('Une image a déjà été selectionner en cover')
             ->addViolation();
         }
-        
     }
 
     public function getSlug(): ?string

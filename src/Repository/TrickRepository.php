@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Entity\Trick;
-use App\Entity\Photo;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -22,9 +21,10 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
-    public function countAllTricks() {
+    public function countAllTricks()
+    {
         return $this->createQueryBuilder('t')
-        ->select("COUNT(t.id)")
+        ->select('COUNT(t.id)')
         ->getQuery()
         ->getSingleScalarResult();
     }
@@ -35,7 +35,8 @@ class TrickRepository extends ServiceEntityRepository
             ->orderBy('t.id')
             ->setFirstResult(0)
             ->setMaxResults($tricksForStarting)
-            ;
+        ;
+
         return $query->getQuery()->getResult();
     }
 
@@ -45,7 +46,8 @@ class TrickRepository extends ServiceEntityRepository
             ->orderBy('t.id')
             ->setFirstResult($tricksAlreadyLoaded)
             ->setMaxResults($tricksPerLoading)
-            ;
+        ;
+
         return $query->getQuery()->getResult();
     }
 
@@ -58,7 +60,7 @@ class TrickRepository extends ServiceEntityRepository
         }
     }
 
-    public function deleteTrick($id) 
+    public function deleteTrick($id)
     {
         $this->createQueryBuilder('t')
         ->delete()

@@ -6,8 +6,6 @@ use App\Entity\Photo;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\FormEvent;
@@ -21,21 +19,19 @@ class PhotoType extends AbstractType
         ->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $photo = $event->getData();
             $form = $event->getForm();
-            
-            if($photo === null || $photo->getId() === null) {
-                
+
+            if (null === $photo || null === $photo->getId()) {
             }
         })
         ->add('file', FileType::class, [
             'mapped' => true,
             'required' => false,
-            'label'   => false,
+            'label' => false,
         ])
         ->add('cover', CheckboxType::class, [
             'required' => false,
-            'label'   => false,
+            'label' => false,
         ]);
-            
     }
 
     public function configureOptions(OptionsResolver $resolver): void

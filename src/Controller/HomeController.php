@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\AvatarFormType;
-use App\Form\TrickType;
 use App\Repository\TrickRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
@@ -14,11 +13,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Uid\Uuid;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+
 class HomeController extends AbstractController
 {
-
-    const TRICKS_DISPLAY_STARTING = 10;
-    const TRICKS_PER_LOADING = 10;
+    public const TRICKS_DISPLAY_STARTING = 10;
+    public const TRICKS_PER_LOADING = 10;
 
     #[Route('/', name: 'home')]
     public function index(TrickRepository $trickRepository): Response
@@ -34,7 +33,7 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/getData', name:'get_data', methods: ['POST'])]
+    #[Route('/getData', name: 'get_data', methods: ['POST'])]
     public function loadMoreTricks(Request $request, TrickRepository $trickRepository): Response
     {
         // configuration
@@ -47,30 +46,28 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/editAvatar', name:'editAvatar', methods: ['POST', 'GET'])]
+    #[Route('/editAvatar', name: 'editAvatar', methods: ['POST', 'GET'])]
     #[IsGranted('ROLE_USER')]
     public function editAvatar(
         Request $request,
         EntityManagerInterface $entityManager,
         #[Autowire('%kernel.project_dir%/public/uploads')]
         string $uploadsDir
-        ): Response
-    {
+    ): Response {
         /** @var User $user */
         $user = $this->getUser();
 
         $form = $this->createForm(AvatarFormType::class, $user)->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
-                $file = $form['avatar']->getData();
-                $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                $newFilename = Uuid::v4($originalFilename) . "." . $file->guessExtension();
-                $file->move($uploadsDir, $newFilename);
-                $user->setAvatar($newFilename);
-                $entityManager->flush();
-                return $this->redirectToRoute('home');
-            
+        if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form['avatar']->getData();
+            $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $newFilename = Uuid::v4($originalFilename).'.'.$file->guessExtension();
+            $file->move($uploadsDir, $newFilename);
+            $user->setAvatar($newFilename);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('home/editAvatar.html.twig', [
