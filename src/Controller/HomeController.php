@@ -25,7 +25,6 @@ class HomeController extends AbstractController
     {
         $totalAllTricks = $trickRepository->countAllTricks();
         $tricksToDisplay = $trickRepository->getFirstTricks(self::TRICKS_DISPLAY_STARTING);
-        dump($tricksToDisplay);
 
         return $this->render('home/index.html.twig', [
             'totalAllTricks' => $totalAllTricks,

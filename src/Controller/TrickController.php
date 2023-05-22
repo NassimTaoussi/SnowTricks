@@ -84,7 +84,7 @@ class TrickController extends AbstractController
     #[Route('trick/{slug}', name:'show_trick')]
     public function showTrick(Trick $trick, CommentRepository $commentRepository, Request $request, EntityManagerInterface $entityManager): Response
     {
-        dump($trick);
+    
         $totalAllComments = $commentRepository->countAllComments($trick);
 
         $commentsToDisplay = $commentRepository->getFirstComments(self::COMMENTS_DISPLAY_STARTING, $trick);

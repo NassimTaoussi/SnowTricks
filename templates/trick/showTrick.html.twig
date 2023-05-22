@@ -26,7 +26,6 @@
         
         <div class="col-6 d-flex justify-content-start">
             {% for video in trick.videos %}
-                {{ dump(video.link) }}
                 <div class="w-100 h-25">
                     <embed type="video/webm"
                         src="{{ video.link }}"
