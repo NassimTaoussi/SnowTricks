@@ -22,8 +22,8 @@ class UsersFixtures extends Fixture
     {
         for ($count = 0; $count < 20; ++$count) {
             $user = new User();
-            $user->setUsername('Username '.$count);
-            $user->setEmail('username'.$count.'@email.com');
+            $user->setUsername('Username ' . $count);
+            $user->setEmail('username' . $count . '@email.com');
             $user->setPassword($this->userPasswordHasher->hashPassword($user, 'password'));
             $user->isVerified(true);
             $manager->persist($user);

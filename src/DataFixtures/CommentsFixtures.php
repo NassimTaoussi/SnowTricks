@@ -14,7 +14,7 @@ class CommentsFixtures extends Fixture implements DependentFixtureInterface
         for ($count = 0; $count < 20; ++$count) {
             $comment = new Comment();
             $comment->setAuthor($this->getReference(UsersFixtures::USER_REFERENCE));
-            $comment->setMessage('Lorem ipsum dolor sit amet '.$count);
+            $comment->setMessage('Lorem ipsum dolor sit amet ' . $count);
             $comment->setCreatedAt(new \DateTimeImmutable());
             $comment->setTrick($this->getReference(TricksFixtures::TRICK_REFERENCE));
             $manager->persist($comment);

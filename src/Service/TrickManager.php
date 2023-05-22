@@ -32,7 +32,7 @@ final class TrickManager
                 $trick->removePhoto($photo);
                 continue;
             }
-            $photo->setName(Uuid::v4().'.'.$photo->getFile()->guessClientExtension());
+            $photo->setName(Uuid::v4() . '.' . $photo->getFile()->guessClientExtension());
             $photo->getFile()->move($this->uploadsDir, $photo->getName());
         }
 
@@ -52,7 +52,7 @@ final class TrickManager
                 continue;
             }
             if (null != $photo->getFile()) {
-                $photo->setName(Uuid::v4().'.'.$photo->getFile()->guessClientExtension());
+                $photo->setName(Uuid::v4() . '.' . $photo->getFile()->guessClientExtension());
                 $photo->getFile()->move($this->uploadsDir, $photo->getName());
             }
         }

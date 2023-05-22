@@ -62,7 +62,7 @@ class HomeController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $form['avatar']->getData();
             $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-            $newFilename = Uuid::v4($originalFilename).'.'.$file->guessExtension();
+            $newFilename = Uuid::v4($originalFilename) . '.' . $file->guessExtension();
             $file->move($uploadsDir, $newFilename);
             $user->setAvatar($newFilename);
             $entityManager->flush();

@@ -13,8 +13,11 @@ class EmailVerifier
     private $mailer;
     private $manager;
 
-    public function __construct(MailerInterface $mailer, UserRepository $userRepository, EntityManagerInterface $manager)
-    {
+    public function __construct(
+        MailerInterface $mailer, 
+        UserRepository $userRepository, 
+        EntityManagerInterface $manager
+    ) {
         $this->mailer = $mailer;
         $this->userRepository = $userRepository;
         $this->manager = $manager;

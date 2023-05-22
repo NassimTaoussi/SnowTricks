@@ -75,8 +75,12 @@ class TrickController extends AbstractController
     }
 
     #[Route('trick/{slug}', name: 'show_trick')]
-    public function showTrick(Trick $trick, CommentRepository $commentRepository, Request $request, EntityManagerInterface $entityManager): Response
-    {
+    public function showTrick(
+        Trick $trick, 
+        CommentRepository $commentRepository, 
+        Request $request, 
+        EntityManagerInterface $entityManager
+    ): Response {
         $totalAllComments = $commentRepository->countAllComments($trick);
 
         $commentsToDisplay = $commentRepository->getFirstComments(self::COMMENTS_DISPLAY_STARTING, $trick);
@@ -114,7 +118,11 @@ class TrickController extends AbstractController
         // configuration
         $commentsAlreadyLoaded = $request->query->getInt('totalDisplayComments');
         // selecting posts
-        $commentsToDisplay = $commentRepository->getMoreComments($commentsAlreadyLoaded, self::COMMENTS_PER_LOADING, $trick);
+        $commentsToDisplay = $commentRepository->getMoreComments(
+            $commentsAlreadyLoaded, 
+            self::COMMENTS_PER_LOADING, 
+            $trick
+        );
 
         return $this->render('comment/elements.html.twig', [
             'commentsToDisplay' => $commentsToDisplay,

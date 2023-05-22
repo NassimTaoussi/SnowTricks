@@ -38,8 +38,12 @@ class SecurityController extends AbstractController
     }
 
     #[Route(path: '/forgot_password', name: 'app_forgot_password')]
-    public function forgotPassword(Request $request, UserRepository $usersRepository, EntityManagerInterface $entityManager, TokenGeneratorInterface $tokenGenerator, EmailVerifier $emailVerifier)
-    {
+    public function forgotPassword(
+        Request $request, 
+        UserRepository $usersRepository, 
+        EntityManagerInterface $entityManager, 
+        EmailVerifier $emailVerifier
+    ) {
         $form = $this->createForm(ResetPasswordRequestFormType::class)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -52,7 +56,11 @@ class SecurityController extends AbstractController
                     $entityManager->persist($user);
                     $entityManager->flush();
 
-                    $url = $this->generateUrl('reset_password', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
+                    $url = $this->generateUrl(
+                        'reset_password', 
+                        ['token' => $token], 
+                        UrlGeneratorInterface::ABSOLUTE_URL
+                    );
 
                     $emailVerifier->sendEmailConfirmation(
                         'app_reset_pass',
