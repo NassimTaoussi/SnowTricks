@@ -4,6 +4,8 @@
 
 {% block body %}
 
+{% if is_granted("ROLE_USER") %}
+
 <main class="pt-5 min-vh-100">
     <div class="container bg-white h-100 shadow rounded mb-5">
         {{ form_start(form) }}
@@ -64,5 +66,12 @@
         {{ form_end(form, {render_rest: false}) }}
     </div>
 </main>
+
+{% else %}
+
+    <h3>Vous devez être connecter pour pouvoir ajouter une figure</h3>
+
+{% endif %}
+
 
 {% endblock %}

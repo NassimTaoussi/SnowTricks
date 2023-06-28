@@ -42,6 +42,7 @@ class TrickController extends AbstractController
     }
 
     #[Route('editTrick/{id}', name: 'edit_trick')]
+    #[IsGranted('ROLE_USER')]
     public function editTrick(
         Trick $trick,
         TrickManager $trickManager,
@@ -65,6 +66,7 @@ class TrickController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_USER')]
     #[Route('deleteTrick/{id}', name: 'delete_trick')]
     public function deleteTrick($id, TrickRepository $trickRepository): Response
     {
