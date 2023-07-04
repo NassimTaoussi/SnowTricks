@@ -19,7 +19,7 @@ class HomeController extends AbstractController
     public const TRICKS_DISPLAY_STARTING = 10;
     public const TRICKS_PER_LOADING = 10;
 
-    #[Route('/', name: 'home')]
+    #[Route('/', name: 'home', methods: ['GET'])]
     public function index(TrickRepository $trickRepository): Response
     {
         $totalAllTricks = $trickRepository->countAllTricks();

@@ -5,10 +5,12 @@
             <div class="titleTrick w-75">
                 <h5 class="card-title"><a class="text-dark" href="{{ path('show_trick', {slug: trick.slug}) }}">{{trick.name}}</a></h5>
             </div>
+            {% if is_granted("ROLE_USER") %}
             <div class="optionTrick w-25">
                 <span><a href="{{ path('edit_trick', {id: trick.id}) }}"><img class="editIcon" src="{{ asset('build/images/icones/edit.svg') }}"></a></span>
                 <span data-bs-toggle="modal" data-bs-target="#deleteModal"><img class="deleteIcon" src="{{ asset('build/images/icones/delete.svg') }}"></span>
             </div>
+            {% endif %}
         </div>
     </div>
 

@@ -18,8 +18,8 @@ use App\Service\TrickManager;
 
 class TrickController extends AbstractController
 {
-    public const COMMENTS_DISPLAY_STARTING = 5;
-    public const COMMENTS_PER_LOADING = 5;
+    public const COMMENTS_DISPLAY_STARTING = 10;
+    public const COMMENTS_PER_LOADING = 10;
 
     #[Route('/addTrick', name: 'add_trick')]
     #[IsGranted('ROLE_USER')]
