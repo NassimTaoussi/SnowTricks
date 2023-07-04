@@ -22,7 +22,10 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home', methods: ['GET'])]
     public function index(TrickRepository $trickRepository): Response
     {
+        // Récupération du total de l'ensemble des tricks
         $totalAllTricks = $trickRepository->countAllTricks();
+        
+        // On récupére les 10 premiers tricks à afficher
         $tricksToDisplay = $trickRepository->getFirstTricks(self::TRICKS_DISPLAY_STARTING);
 
         return $this->render('home/index.html.twig', [
@@ -36,9 +39,10 @@ class HomeController extends AbstractController
     #[Route('/getData', name: 'get_data', methods: ['POST'])]
     public function loadMoreTricks(Request $request, TrickRepository $trickRepository): Response
     {
-        // configuration
+        // On récupère l'ensemble des tricks déjà charger sur la page
         $tricksAlreadyLoaded = $request->get('totalDisplayTricks');
-        // selecting posts
+        
+        // On récupère d'autre tricks à afficher
         $tricksToDisplay = $trickRepository->getMoreTricks($tricksAlreadyLoaded, self::TRICKS_PER_LOADING);
 
         return $this->render('trick/elements.html.twig', [

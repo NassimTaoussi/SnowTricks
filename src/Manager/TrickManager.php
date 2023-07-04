@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Manager;
 
 use App\Entity\Trick;
 use Symfony\Component\Uid\Uuid;

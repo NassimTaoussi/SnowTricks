@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Comment;
 use App\Form\CommentType;
-use App\Service\TrickManager;
+use App\Manager\TrickManager;
 
 class TrickController extends AbstractController
 {
@@ -83,8 +83,11 @@ class TrickController extends AbstractController
         Request $request, 
         EntityManagerInterface $entityManager
     ): Response {
+
+        // Comptabilise le nombres de commentaires en fonction du trick
         $totalAllComments = $commentRepository->countAllComments($trick);
 
+        // On récupére les 10 premiers commentaires à afficher
         $commentsToDisplay = $commentRepository->getFirstComments(self::COMMENTS_DISPLAY_STARTING, $trick);
 
         /** @var User $user */
@@ -117,9 +120,10 @@ class TrickController extends AbstractController
     #[Route('/getMoreComments/{id}', name: 'get_more_comment', methods: ['GET'])]
     public function getMoreComments(Trick $trick, Request $request, CommentRepository $commentRepository): Response
     {
-        // configuration
+        // On récupère l'ensemble des commentaires déjà charger sur la page
         $commentsAlreadyLoaded = $request->query->getInt('totalDisplayComments');
-        // selecting posts
+        
+        // On récupère d'autre commentaires à afficher
         $commentsToDisplay = $commentRepository->getMoreComments(
             $commentsAlreadyLoaded, 
             self::COMMENTS_PER_LOADING, 

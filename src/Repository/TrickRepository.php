@@ -21,6 +21,7 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
+    // Comptabilise l'ensemble des tricks
     public function countAllTricks()
     {
         return $this->createQueryBuilder('t')
@@ -29,6 +30,7 @@ class TrickRepository extends ServiceEntityRepository
         ->getSingleScalarResult();
     }
 
+    // Recupère les xx premiers tricks en fonction du paramètre
     public function getFirstTricks($tricksForStarting)
     {
         $query = $this->createQueryBuilder('t')
@@ -40,6 +42,7 @@ class TrickRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    // Récupère les xx tricks en plus en fonction dejà charger
     public function getMoreTricks($tricksAlreadyLoaded, $tricksPerLoading)
     {
         $query = $this->createQueryBuilder('t')

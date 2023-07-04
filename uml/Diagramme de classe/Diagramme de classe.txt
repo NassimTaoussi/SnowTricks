@@ -18,6 +18,7 @@ Class User {
   String : email
   String : password
   String : avatar
+  Bool : verified
   String : resetPasswordToken
 }
 
@@ -32,12 +33,14 @@ Class Trick {
   DateTime : createdAt
   DateTime : updatedAt
   Comment : comments
+  String : slug
 }
 
 Class Photo {
   int : id
-  String : link
+  String : name
   Trick : trick
+  Bool : cover
 }
 
 Class Video {
